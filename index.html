@@ -1,0 +1,3236 @@
+<!-- تعريف المستند بأنه صفحة HTML5 -->
+<!doctype html>
+<!-- بداية الصفحة: اللغة الإنكليزية والاتجاه من اليسار إلى اليمين افتراضياً -->
+<html lang="en" dir="ltr">
+<!-- رأس الصفحة: إعدادات لا تظهر للزائر -->
+
+<head>
+  <!-- ترميز الحروف UTF-8 حتى تظهر العربية بشكل صحيح -->
+  <meta charset="utf-8">
+  <!-- ضبط عرض الصفحة على الجوال ليطابق عرض الشاشة -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- سكربت صغير يعمل قبل رسم الصفحة ليختار اللغة -->
+  <script>
+    // دالة تنفّذ نفسها مباشرة
+    (function () {
+      // اختصار لعنصر html، ومتغير للغة
+      var d = document.documentElement, l;
+      // قراءة اللغة المحفوظة من زيارة سابقة (مع حماية من الأخطاء)
+      try { l = localStorage.getItem('ghina-lang'); } catch (e) { }
+      // البحث عن lang=ar أو lang=en داخل رابط الصفحة
+      var q = /[?&]lang=(ar|en)\b/.exec(location.search);
+      // اللغة الموجودة في الرابط تتقدّم على المحفوظة
+      if (q) l = q[1];
+      // إذا كانت عربية: نغيّر لغة الصفحة واتجاهها إلى اليمين
+      if (l === 'ar') { d.lang = 'ar'; d.dir = 'rtl'; }
+      // علامة تعني أن الجافاسكربت يعمل (تعتمد عليها حركات الظهور)
+      d.classList.add('js');
+      // نهاية الدالة وتشغيلها
+    })();
+    // نهاية سكربت اختيار اللغة
+  </script>
+  <!-- عنوان الصفحة في تبويب المتصفح -->
+  <title>Ghina Alazmeh — UI/UX Designer</title>
+  <!-- وصف الصفحة لمحركات البحث -->
+  <meta name="description"
+    content="Ghina Alazmeh, UI/UX designer. Intuitive web and mobile products designed in Figma, in Arabic and English: Afaq, AquaAI, CoffeCam and GHFASH.">
+  <!-- عنوان المعاينة عند مشاركة الرابط -->
+  <meta property="og:title" content="Ghina Alazmeh — UI/UX Designer">
+  <!-- وصف المعاينة عند مشاركة الرابط -->
+  <meta property="og:description" content="Intuitive digital experiences where emotion meets function.">
+  <!-- صورة المعاينة عند مشاركة الرابط -->
+  <meta property="og:image" content="assets/afaq.webp">
+  <!-- لون شريط المتصفح على الجوال -->
+  <meta name="theme-color" content="#07060C">
+  <!-- أيقونة التبويب: حرف G بتدرّج بنفسجي ووردي مرسوم بـ SVG -->
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23A066FF'/%3E%3Cstop offset='1' stop-color='%23FF6FB1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%2307060C'/%3E%3Cpath d='M44 22a15 15 0 1 0 3 12H33' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <!-- تحميل صورة غنى مبكراً لأنها أول ما يظهر -->
+  <link rel="preload" href="assets/ghina_avatar2.webp" as="image" fetchpriority="high">
+  <!-- اتصال مسبق بخوادم Google Fonts لتسريع الخطوط -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- اتصال مسبق بخادم ملفات الخطوط -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- الخطوط: Unbounded للعناوين، Plus Jakarta Sans للنص، Alexandria وReadex Pro للعربية -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Alexandria:wght@500;700;800&family=Readex+Pro:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <!-- بداية أنماط التصميم (CSS) -->
+  <style>
+    /* المتغيرات العامة: الألوان والخطوط تُعرَّف هنا مرة واحدة */
+    :root {
+      /* لون الخلفية الأساسي (أسود مائل للبنفسجي) */
+      --bg: #07060C;
+      /* خلفية أفتح قليلاً للعناصر المرتفعة */
+      --bg-elev: #0E0C16;
+      /* لون النص الأساسي */
+      --text: #F6F4FF;
+      /* لون النص الثانوي الباهت */
+      --muted: #A7A3B8;
+      /* اللون الأساسي: بنفسجي */
+      --accent: #A066FF;
+      /* اللون الثاني: وردي */
+      --accent-2: #FF6FB1;
+      /* بنفسجي غامق للتوهج */
+      --accent-deep: #4A1FA0;
+      /* بنفسجي شفاف للخلفيات الخفيفة */
+      --accent-soft: rgba(160, 102, 255, .16);
+      /* التدرّج من البنفسجي إلى الوردي */
+      --accent-grad: linear-gradient(120deg, #A066FF 0%, #FF6FB1 100%);
+      /* لون الحدود الخفيفة */
+      --border: rgba(255, 255, 255, .08);
+      /* لون الحدود الأوضح */
+      --border-strong: rgba(255, 255, 255, .16);
+      /* خط النصوص */
+      --font: "Plus Jakarta Sans", system-ui, sans-serif;
+      /* خط العناوين */
+      --display: "Unbounded", "Plus Jakarta Sans", sans-serif;
+      /* منحنى الحركة الناعم المستخدم في كل الانتقالات */
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      /* إخبار المتصفح أن الصفحة داكنة */
+      color-scheme: dark;
+    }
+
+    /* عند العربية: نستبدل الخطوط بخطوط عربية */
+    html[lang="ar"] {
+      --font: "Readex Pro", "Plus Jakarta Sans", system-ui, sans-serif;
+      --display: "Alexandria", "Readex Pro", sans-serif;
+    }
+
+    /* حساب العرض مع الحدود والحشو لكل العناصر */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    /* تمرير ناعم، ولون شريط التمرير، ومنع تكبير النص تلقائياً */
+    html {
+      scroll-behavior: smooth;
+      scrollbar-color: var(--accent) transparent;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* لون تحديد النص بالماوس */
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* عرض شريط التمرير */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* خلفية مجرى شريط التمرير */
+    ::-webkit-scrollbar-track {
+      background: #09080F;
+    }
+
+    /* مقبض شريط التمرير بالتدرّج */
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--accent), var(--accent-2));
+      border-radius: 10px;
+      border: 2px solid #09080F;
+    }
+
+    /* جسم الصفحة */
+    body {
+      /* إزالة الهوامش الافتراضية */
+      margin: 0;
+      /* الخلفية الداكنة */
+      background: var(--bg);
+      /* لون النص */
+      color: var(--text);
+      /* وزن الخط وحجمه وارتفاع السطر ونوعه */
+      font: 400 16px/1.65 var(--font);
+      /* منع التمرير الأفقي */
+      overflow-x: hidden;
+      /* تنعيم الخطوط على ماك */
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* الصور: لا تتجاوز عرض حاويتها */
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* الروابط: بلون النص وبدون خط تحتها */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* الأزرار ترث خط الصفحة */
+    button {
+      font: inherit;
+    }
+
+    /* إطار التركيز عند التنقل بلوحة المفاتيح */
+    :focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* رابط «انتقل إلى الأعمال» مخفي فوق الشاشة لمستخدمي لوحة المفاتيح */
+    .skip {
+      position: absolute;
+      inset-inline-start: 16px;
+      top: -60px;
+      z-index: 300;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* يظهر الرابط عند التركيز عليه */
+    .skip:focus {
+      top: 14px;
+    }
+
+    /* نص ملوّن بالتدرّج (للكلمات الملوّنة) */
+    .grad {
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* ---------- أجواء الخلفية ---------- */
+    /* طبقة الحبيبات فوق الصفحة لملمس سينمائي */
+    .grain {
+      /* لا تلتقط النقرات، ثابتة فوق الصفحة، وشفافة جداً */
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      opacity: .045;
+      /* نقش الضجيج مرسوم بـ SVG */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* الشفق: بقع ضوء ملونة في الخلفية */
+    .aurora {
+      /* ثابتة خلف كل شيء وأكبر قليلاً من الشاشة */
+      position: fixed;
+      inset: -10%;
+      z-index: -2;
+      pointer-events: none;
+      /* ثلاث بقع ضوء متدرّجة */
+      background:
+        /* بقعة بنفسجية أعلى اليسار */
+        radial-gradient(38vw 38vw at 14% 10%, rgba(160, 102, 255, .18), transparent 62%),
+        /* بقعة وردية أعلى اليمين */
+        radial-gradient(34vw 34vw at 86% 24%, rgba(255, 111, 177, .11), transparent 62%),
+        /* بقعة بنفسجية أسفل الوسط */
+        radial-gradient(44vw 44vw at 50% 105%, rgba(160, 102, 255, .13), transparent 66%);
+      /* حركة بطيئة ذهاباً وإياباً كل 24 ثانية */
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+
+    /* حركة الشفق: صعود بسيط مع تكبير */
+    @keyframes drift {
+      to {
+        transform: translate3d(0, -3%, 0) scale(1.08);
+      }
+    }
+
+    /* شبكة نقاط خفيفة مثل لوحة Figma */
+    .dots {
+      /* ثابتة خلف المحتوى وشبه شفافة */
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .5;
+      /* النقطة الصغيرة التي تتكرر */
+      background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1.2px);
+      /* المسافة بين النقاط */
+      background-size: 28px 28px;
+      /* تلاشي الشبكة نحو الأطراف (لمتصفح سفاري) */
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000, transparent 80%);
+      /* تلاشي الشبكة نحو الأطراف */
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000, transparent 80%);
+    }
+
+    /* شريط تقدّم القراءة أعلى الصفحة، يمتد مع التمرير */
+    .progress {
+      position: fixed;
+      top: 0;
+      inset-inline-start: 0;
+      z-index: 200;
+      height: 3px;
+      width: 100%;
+      transform: scaleX(0);
+      transform-origin: inline-start;
+      background: var(--accent-grad);
+      box-shadow: 0 0 14px rgba(160, 102, 255, .7);
+    }
+
+    /* في العربية يبدأ الشريط من اليمين */
+    html[dir="rtl"] .progress {
+      transform-origin: right;
+    }
+
+    /* توهج يتبع الماوس */
+    .glow {
+      /* ثابت ومتمركز حول نقطة الماوس */
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 520px;
+      height: 520px;
+      margin: -260px 0 0 -260px;
+      /* دائري، لا يلتقط النقرات، ومخفي في البداية */
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      /* تدرّج دائري بنفسجي ووردي */
+      background: radial-gradient(circle, rgba(160, 102, 255, .13), rgba(255, 111, 177, .05) 40%, transparent 66%);
+      /* ظهور ناعم وتحسين لأداء الحركة */
+      transition: opacity .4s;
+      will-change: transform;
+    }
+
+    /* يظهر التوهج فقط على الأجهزة التي فيها ماوس */
+    @media (hover: hover) and (pointer: fine) {
+      body:hover .glow {
+        opacity: 1;
+      }
+    }
+
+    /* ---------- شريط التنقل العلوي ---------- */
+    /* الشريط العلوي */
+    .nav {
+      /* ثابت أعلى الصفحة فوق كل شيء */
+      position: fixed;
+      top: 0;
+      inset-inline: 0;
+      z-index: 100;
+      /* العناصر في صف واحد موزعة على الطرفين */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      /* الحشو الداخلي يتغيّر مع عرض الشاشة */
+      padding: 20px clamp(20px, 5vw, 48px);
+      /* انتقال ناعم عندما يتغيّر شكله مع التمرير */
+      transition: background .4s, padding .4s, border-color .4s, box-shadow .4s;
+      /* حد سفلي مخفي في البداية */
+      border-bottom: 1px solid transparent;
+    }
+
+    /* شكل الشريط بعد التمرير قليلاً */
+    .nav.scrolled {
+      /* خلفية داكنة شبه شفافة */
+      background: rgba(7, 6, 12, .72);
+      /* تمويه ما خلف الشريط (تأثير زجاجي) */
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
+      /* حد سفلي وظل */
+      border-color: var(--border);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .5);
+      /* يصبح الشريط أنحف */
+      padding-block: 12px;
+    }
+
+    /* الشعار: الأيقونة والاسم بجانب بعضهما */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* حجم أيقونة الشعار */
+    .brand svg {
+      width: 40px;
+      height: 40px;
+      flex: none;
+    }
+
+    /* اسم غنى بخط العناوين */
+    .brand b {
+      display: block;
+      font: 700 17px/1.1 var(--display);
+      letter-spacing: -.01em;
+    }
+
+    /* حجم الاسم في العربية */
+    html[lang="ar"] .brand b {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    /* السطر الصغير تحت الاسم */
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      font-size: 9.5px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* السطر الصغير في العربية */
+    html[lang="ar"] .brand small {
+      letter-spacing: .04em;
+      font-size: 11px;
+    }
+
+    /* روابط الأقسام: مخفية على الشاشات الصغيرة */
+    .links {
+      display: none;
+      gap: 30px;
+      font-size: .8rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* الروابط في العربية بدون تباعد بين الأحرف */
+    html[lang="ar"] .links {
+      letter-spacing: 0;
+      font-size: .95rem;
+    }
+
+    /* كل رابط */
+    .links a {
+      position: relative;
+      padding: 4px 0;
+      transition: color .25s;
+    }
+
+    /* خط متدرّج تحت الرابط يظهر عند المرور */
+    .links a::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      bottom: -3px;
+      height: 1.5px;
+      background: var(--accent-grad);
+      transform: scaleX(0);
+      transform-origin: inline-start;
+      transition: transform .35s var(--ease);
+    }
+
+    /* في العربية يبدأ الخط من اليمين */
+    html[dir="rtl"] .links a::after {
+      transform-origin: right;
+    }
+
+    /* لون الرابط عند المرور أو عندما يكون قسمه ظاهراً */
+    .links a:hover,
+    .links a.on {
+      color: var(--text);
+    }
+
+    /* إظهار الخط تحت الرابط النشط */
+    .links a:hover::after,
+    .links a.on::after {
+      transform: scaleX(1);
+    }
+
+    /* مجموعة الأزرار في الطرف الآخر من الشريط */
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* رابط LinkedIn النصي، مخفي على الشاشات الصغيرة */
+    .social {
+      display: none;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color .25s;
+    }
+
+    /* يصبح وردياً عند المرور */
+    .social:hover {
+      color: var(--accent-2);
+    }
+
+    /* زر تبديل اللغة */
+    .lang {
+      /* الحشو والحدود والزوايا */
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      /* لون النص وحجمه وانتقال اللون */
+      color: var(--text);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .25s, color .25s;
+    }
+
+    /* لون الزر عند المرور */
+    .lang:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* خط عربي عندما يعرض الزر كلمة «العربية» */
+    .lang[lang="ar"] {
+      font-family: "Readex Pro", sans-serif;
+      font-size: .85rem;
+    }
+
+    /* زر «لنتحدث» */
+    .cta {
+      /* يحتوي طبقة تدرّج مخفية */
+      position: relative;
+      z-index: 0;
+      overflow: hidden;
+      /* حشو وحد بنفسجي وزوايا دائرية */
+      padding: 10px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      /* لون النص وحجمه بأحرف كبيرة */
+      color: #CDB2FF;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      /* انتقال اللون والتوهج */
+      transition: color .3s, box-shadow .3s;
+    }
+
+    /* الزر في العربية */
+    html[lang="ar"] .cta {
+      letter-spacing: 0;
+      font-size: .9rem;
+    }
+
+    /* طبقة التدرّج التي تملأ الزر عند المرور */
+    .cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--accent-grad);
+      transform: scaleX(0);
+      transform-origin: inline-start;
+      transition: transform .35s var(--ease);
+    }
+
+    /* في العربية تمتلئ من اليمين */
+    html[dir="rtl"] .cta::before {
+      transform-origin: right;
+    }
+
+    /* النص أبيض مع توهج عند المرور */
+    .cta:hover {
+      color: #fff;
+      box-shadow: 0 0 26px rgba(160, 102, 255, .5);
+    }
+
+    /* امتلاء الزر بالتدرّج عند المرور */
+    .cta:hover::before {
+      transform: scaleX(1);
+    }
+
+    /* على الشاشات العريضة تظهر الروابط ورابط LinkedIn */
+    @media (min-width: 920px) {
+      .links {
+        display: flex;
+      }
+
+      .social {
+        display: inline-block;
+      }
+    }
+
+    /* ---------- القسم الأول (Hero) ---------- */
+    /* القسم الأول */
+    .hero {
+      /* بارتفاع الشاشة كاملة */
+      min-height: 100vh;
+      min-height: 100dvh;
+      /* الحشو، مع مساحة للشريط العلوي */
+      padding: 130px clamp(20px, 5vw, 64px) 70px;
+      /* المحتوى في المنتصف عمودياً */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* قص أي عنصر يخرج عن العرض (يمنع التمرير الأفقي) */
+      overflow: hidden;
+      overflow: clip;
+    }
+
+    /* شبكة فيها عمودا النص والصورة */
+    .hero-grid {
+      display: grid;
+      gap: 56px;
+      align-items: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* على الشاشات العريضة يصبحان عمودين متجاورين */
+    @media (min-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1.02fr .98fr;
+        gap: 56px;
+      }
+    }
+
+    /* الشارة الصغيرة فوق العنوان */
+    .eyebrow {
+      /* صف فيه أيقونة ونص */
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      /* الهوامش والحشو */
+      margin: 0 0 22px;
+      padding: 7px 15px 7px 12px;
+      /* حد وزوايا دائرية وخلفية خفيفة */
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .025);
+      /* اللون والحجم والأحرف الكبيرة المتباعدة */
+      color: var(--muted);
+      font-size: .74rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    /* الشارة في العربية */
+    html[lang="ar"] .eyebrow {
+      letter-spacing: .02em;
+      font-size: .9rem;
+    }
+
+    /* أيقونة المعيّن الوردية */
+    .eyebrow svg {
+      width: 12px;
+      height: 12px;
+      color: var(--accent-2);
+      flex: none;
+    }
+
+    /* العنوان الرئيسي الكبير */
+    .hero h1 {
+      /* مسافة تحته */
+      margin: 0 0 22px;
+      /* خط عريض بحجم يتغيّر مع الشاشة */
+      font: 700 clamp(2.3rem, 5vw, 4.1rem)/1.06 var(--display);
+      /* تقريب الأحرف من بعضها */
+      letter-spacing: -.04em;
+    }
+
+    /* العنوان في العربية: ارتفاع سطر أكبر */
+    html[lang="ar"] .hero h1 {
+      letter-spacing: 0;
+      line-height: 1.3;
+      font-weight: 800;
+      font-size: clamp(2.3rem, 4.8vw, 3.9rem);
+    }
+
+    /* الفقرة التعريفية تحت العنوان */
+    .lead {
+      margin: 0 0 32px;
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: 1.07rem;
+    }
+
+    /* الفقرة في العربية */
+    html[lang="ar"] .lead {
+      font-size: 1.12rem;
+      line-height: 1.85;
+    }
+
+    /* صف الأزرار */
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    /* الزر العام */
+    .btn {
+      /* لاحتواء طبقة اللمعة */
+      position: relative;
+      overflow: hidden;
+      /* النص والأيقونة في المنتصف */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      /* الحشو والزوايا الدائرية */
+      padding: 16px 28px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      /* خط عريض بأحرف كبيرة */
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      /* انتقال الحركة والظل */
+      transition: transform .3s var(--ease), box-shadow .3s, border-color .3s;
+      /* تحسين أداء الحركة */
+      will-change: transform;
+    }
+
+    /* الزر في العربية */
+    html[lang="ar"] .btn {
+      letter-spacing: 0;
+      font-size: .95rem;
+      font-weight: 600;
+    }
+
+    /* حجم السهم داخل الزر */
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    /* قلب السهم في العربية */
+    html[dir="rtl"] .btn svg.dir {
+      transform: scaleX(-1);
+    }
+
+    /* الزر الأساسي: تدرّج وظل بنفسجي */
+    .btn--primary {
+      background: var(--accent-grad);
+      color: #fff;
+      box-shadow: 0 12px 34px rgba(160, 102, 255, .35);
+    }
+
+    /* لمعة ضوء تعبر الزر عند المرور */
+    .btn--primary::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+      transform: skewX(-20deg);
+      transition: left .7s ease;
+    }
+
+    /* ظل أقوى عند المرور */
+    .btn--primary:hover {
+      box-shadow: 0 18px 46px rgba(160, 102, 255, .5);
+    }
+
+    /* حركة اللمعة عبر الزر */
+    .btn--primary:hover::after {
+      left: 130%;
+    }
+
+    /* الزر الثانوي الشفاف بحد */
+    .btn--ghost {
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, .025);
+      color: var(--text);
+    }
+
+    /* حد بنفسجي وظل عند المرور */
+    .btn--ghost:hover {
+      border-color: var(--accent);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .5);
+    }
+
+    /* بطاقات الأرقام */
+    .stats {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    /* كل بطاقة رقم */
+    .stats li {
+      /* الرقم فوق الوصف */
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 132px;
+      /* الحشو والحد والزوايا */
+      padding: 15px 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      /* خلفية زجاجية خفيفة */
+      background: linear-gradient(160deg, rgba(255, 255, 255, .045), transparent);
+      /* تمويه ما خلف البطاقة */
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      /* انتقال الحركة */
+      transition: transform .35s var(--ease), border-color .3s, box-shadow .3s;
+    }
+
+    /* ترتفع البطاقة قليلاً عند المرور */
+    .stats li:hover {
+      transform: translateY(-4px);
+      border-color: rgba(160, 102, 255, .45);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .45);
+    }
+
+    /* الرقم بخط العناوين */
+    .stats strong {
+      font: 700 1.6rem/1.2 var(--display);
+      letter-spacing: -.02em;
+    }
+
+    /* الرقم في العربية */
+    html[lang="ar"] .stats strong {
+      letter-spacing: 0;
+    }
+
+    /* وصف الرقم */
+    .stats span {
+      font-size: .72rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    /* الوصف في العربية */
+    html[lang="ar"] .stats span {
+      letter-spacing: 0;
+      font-size: .88rem;
+    }
+
+    /* صورة غنى كأنها طبقة محدّدة على لوحة تصميم */
+    /* حاوية الصورة والبطاقات العائمة */
+    .visual {
+      position: relative;
+      width: min(100%, 520px);
+      aspect-ratio: 1 / 1.02;
+      margin-inline: auto;
+      display: grid;
+      place-items: center;
+    }
+
+    /* الكرة المضيئة خلف الصورة */
+    .orb {
+      /* دائرية بحجم 74% من الحاوية */
+      position: absolute;
+      width: 74%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      pointer-events: none;
+      /* تدرّج دائري بنفسجي */
+      background: radial-gradient(circle at 40% 35%, #C79BFF 0%, var(--accent) 30%, var(--accent-deep) 58%, transparent 71%);
+      /* حركة تنفّس بطيئة */
+      opacity: .9;
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    /* هالة ملوّنة تدور حول الكرة */
+    .orb::before {
+      /* أكبر من الكرة */
+      content: "";
+      position: absolute;
+      inset: -16%;
+      border-radius: 50%;
+      /* تدرّج دوّار وردي وبنفسجي */
+      background: conic-gradient(from 0deg, transparent, rgba(255, 111, 177, .55), transparent 50%, rgba(160, 102, 255, .55), transparent);
+      /* تمويه ودوران كل 16 ثانية */
+      filter: blur(28px);
+      opacity: .75;
+      animation: spin 16s linear infinite;
+    }
+
+    /* حركة الدوران */
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* حركة التنفّس: تكبير بسيط */
+    @keyframes breathe {
+      50% {
+        transform: scale(1.045);
+      }
+    }
+
+    /* طبقة الصورة */
+    .layer {
+      position: relative;
+      z-index: 1;
+      width: 62%;
+    }
+
+    /* الصورة مع ظل تحتها */
+    .layer img {
+      width: 100%;
+      filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .45));
+    }
+
+    /* إطار التحديد مثل Figma */
+    .frame {
+      /* مسافة صغيرة حول الصورة وحد بنفسجي */
+      position: absolute;
+      inset: -14px -16px -10px;
+      border: 1.5px solid #B48BFF;
+      pointer-events: none;
+      /* توهج خفيف */
+      box-shadow: 0 0 0 1px rgba(160, 102, 255, .12), 0 0 30px rgba(160, 102, 255, .18) inset;
+    }
+
+    /* مربعات الزوايا البيضاء */
+    .frame i {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border: 1.5px solid #B48BFF;
+      transform: translate(-50%, -50%);
+    }
+
+    /* الزاويتان العلويتان */
+    .frame i:nth-child(1) {
+      left: 0;
+      top: 0;
+    }
+
+    .frame i:nth-child(2) {
+      left: 100%;
+      top: 0;
+    }
+
+    /* الزاويتان السفليتان */
+    .frame i:nth-child(3) {
+      left: 100%;
+      top: 100%;
+    }
+
+    .frame i:nth-child(4) {
+      left: 0;
+      top: 100%;
+    }
+
+    /* اسم الطبقة فوق الإطار (ghina.png) */
+    .frame-name {
+      position: absolute;
+      left: -2px;
+      top: -30px;
+      font-size: 12px;
+      color: #CDB2FF;
+      white-space: nowrap;
+      direction: ltr;
+    }
+
+    /* شارة المقاس أسفل الإطار */
+    .frame-size {
+      position: absolute;
+      left: 50%;
+      bottom: -32px;
+      transform: translateX(-50%);
+      padding: 4px 8px;
+      border-radius: 5px;
+      background: #9A62FF;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      direction: ltr;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* البطاقات العائمة حول الصورة */
+    .chip {
+      /* فوق الصورة */
+      position: absolute;
+      z-index: 2;
+      /* الأيقونة والنص في صف */
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      /* الحشو والزوايا */
+      padding: 10px 14px 10px 10px;
+      border-radius: 14px;
+      /* الحد */
+      border: 1px solid var(--border-strong);
+      /* خلفية داكنة شفافة */
+      background: rgba(17, 14, 28, .62);
+      /* تمويه زجاجي */
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      /* الظل */
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
+      /* حجم الخط */
+      font-size: .82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      /* حركة طفو مستمرة */
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* السطر الصغير داخل البطاقة */
+    .chip small {
+      display: block;
+      font-weight: 400;
+      font-size: .68rem;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    /* مربع الأيقونة */
+    .chip .ico {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: #CDB2FF;
+      flex: none;
+    }
+
+    /* حجم الأيقونة */
+    .chip .ico svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* مكان بطاقة Figma */
+    .chip--a {
+      top: 17%;
+      inset-inline-start: -13%;
+      animation-delay: -1s;
+    }
+
+    /* مكان بطاقة مسارات المستخدم */
+    .chip--b {
+      top: 40%;
+      inset-inline-end: -8%;
+      animation-delay: -3s;
+    }
+
+    /* مكان بطاقة RTL */
+    .chip--c {
+      bottom: -1%;
+      inset-inline-start: -11%;
+      animation-delay: -4.5s;
+    }
+
+    /* دوائر الألوان داخل بطاقة RTL */
+    .chip .sw {
+      display: flex;
+      gap: 4px;
+    }
+
+    /* كل دائرة لون */
+    .chip .sw b {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    /* حركة الطفو: صعود 10 بكسل ثم نزول */
+    @keyframes float {
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* مؤشر غنى المتحرك */
+    .mate {
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* سهم المؤشر */
+    .mate svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .4));
+    }
+
+    /* اسم «Ghina» بجانب المؤشر */
+    .mate span {
+      position: absolute;
+      left: 15px;
+      top: 19px;
+      padding: 4px 9px;
+      border-radius: 4px 10px 10px 10px;
+      background: var(--accent-2);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* الخط العمودي أسفل القسم (إشارة للتمرير) */
+    .hint {
+      margin: 54px auto 0;
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      opacity: .55;
+    }
+
+    /* ---------- الشريط المتحرك ---------- */
+    /* شريط المهارات المتحرك */
+    .strip {
+      /* حدود وحشو وقص ما يخرج */
+      border-block: 1px solid var(--border);
+      padding: 20px 0;
+      overflow: hidden;
+      /* خلفية خفيفة */
+      background: linear-gradient(180deg, rgba(255, 255, 255, .02), transparent);
+      /* تلاشي الطرفين (لمتصفح سفاري) */
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      /* تلاشي الطرفين */
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    /* المحتوى يتحرك أفقياً بلا توقف */
+    .marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 32s linear infinite;
+      direction: ltr;
+    }
+
+    /* كل كلمة */
+    .marquee span {
+      display: inline-flex;
+      align-items: center;
+      gap: 44px;
+      padding-inline-end: 44px;
+      font: 500 .9rem/1 var(--display);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* المعيّن الوردي بين الكلمات */
+    .marquee span::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      transform: rotate(45deg);
+      border: 1.5px solid var(--accent-2);
+    }
+
+    /* الكلمات في العربية */
+    html[lang="ar"] .marquee span {
+      font-family: "Alexandria", sans-serif;
+      letter-spacing: 0;
+      font-size: 1rem;
+    }
+
+    /* الحركة: إزاحة نصف العرض ثم تتكرر */
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* في العربية يتحرك بالاتجاه المعاكس */
+    html[dir="rtl"] .marquee {
+      animation-direction: reverse;
+    }
+
+    /* ---------- الأقسام ---------- */
+    /* الحاوية العامة لكل قسم */
+    .sec {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: clamp(80px, 12vw, 130px) clamp(20px, 5vw, 64px);
+    }
+
+    /* مجموعة عنوان القسم */
+    .tag {
+      margin: 0 0 40px;
+    }
+
+    /* السطر الوردي الصغير فوق العنوان */
+    .tag small {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--accent-2);
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+
+    /* السطر الصغير في العربية */
+    html[lang="ar"] .tag small {
+      letter-spacing: .02em;
+      font-size: .9rem;
+    }
+
+    /* العنوان الكبير للقسم */
+    .tag h2 {
+      /* بلا هامش */
+      margin: 0;
+      display: inline-block;
+      /* خط ضخم */
+      font: 800 clamp(3rem, 9vw, 6.6rem)/.95 var(--display);
+      letter-spacing: -.05em;
+      /* تدرّج من الأبيض إلى البنفسجي إلى الوردي */
+      background: linear-gradient(180deg, #fff 10%, #C9A8FF 58%, #FF8CC4 100%);
+      /* تلوين النص بالتدرّج */
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      /* مسافة كي لا تُقص الحروف من الأسفل */
+      padding-bottom: .06em;
+    }
+
+    /* العنوان في العربية */
+    html[lang="ar"] .tag h2 {
+      letter-spacing: 0;
+      line-height: 1.25;
+      font-size: clamp(2.8rem, 8vw, 5.6rem);
+    }
+
+    /* الخط الصغير المتوهج تحت العنوان */
+    .tag h2::after {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 4px;
+      margin-top: 18px;
+      border-radius: 4px;
+      background: var(--accent-grad);
+      box-shadow: 0 0 18px rgba(160, 102, 255, .65);
+    }
+
+    /* قسم «عنّي» */
+    /* شبكة القسم */
+    .about-grid {
+      display: grid;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* عمودان على الشاشات العريضة */
+    @media (min-width: 920px) {
+      .about-grid {
+        grid-template-columns: .9fr 1.1fr;
+        gap: 72px;
+      }
+    }
+
+    /* بطاقة الاقتباس */
+    .quote {
+      /* الحشو */
+      position: relative;
+      margin: 0;
+      padding: 40px 36px 34px;
+      /* الحد والزوايا */
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      /* خلفية بتوهج بنفسجي */
+      background: radial-gradient(120% 90% at 0% 0%, rgba(160, 102, 255, .2), transparent 60%), linear-gradient(160deg, rgba(255, 255, 255, .04), transparent);
+    }
+
+    /* علامة الاقتباس الكبيرة الباهتة */
+    .quote::before {
+      content: "\201C";
+      position: absolute;
+      top: -26px;
+      inset-inline-end: 18px;
+      font: 800 170px/1 var(--display);
+      opacity: .14;
+    }
+
+    /* نص الاقتباس */
+    .quote p {
+      margin: 0 0 26px;
+      font: 700 clamp(1.5rem, 2.6vw, 2.1rem)/1.25 var(--display);
+      letter-spacing: -.03em;
+    }
+
+    /* الاقتباس في العربية */
+    html[lang="ar"] .quote p {
+      letter-spacing: 0;
+      line-height: 1.6;
+    }
+
+    /* سطر صاحبة الاقتباس */
+    .quote footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* الصورة الدائرية الصغيرة */
+    .quote footer img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: 50% 20%;
+      background: var(--accent-soft);
+      border: 1px solid var(--border-strong);
+    }
+
+    /* الاسم */
+    .quote footer b {
+      display: block;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* فقرات النبذة */
+    .about-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    /* الفقرات في العربية */
+    html[lang="ar"] .about-copy p {
+      line-height: 1.95;
+      font-size: 1.08rem;
+    }
+
+    /* الكلمات العريضة داخل الفقرة */
+    .about-copy p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* قائمة المعلومات */
+    .facts {
+      list-style: none;
+      margin: 30px 0 0;
+      padding: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    /* كل سطر: عنوان وقيمة */
+    .facts li {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .94rem;
+      color: var(--text);
+    }
+
+    /* عنوان السطر */
+    .facts span {
+      color: #CDB2FF;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding-top: 3px;
+    }
+
+    /* عنوان السطر في العربية */
+    html[lang="ar"] .facts span {
+      letter-spacing: 0;
+      font-size: .88rem;
+    }
+
+    /* قسم الأعمال */
+    /* رأس القسم */
+    .work-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      flex-wrap: wrap;
+      gap: 0 40px;
+    }
+
+    /* الفقرة بجانب العنوان */
+    .work-head p {
+      margin: 0 0 46px;
+      color: var(--muted);
+      max-width: 46ch;
+      font-size: 1.06rem;
+    }
+
+    /* بطاقة المشروع */
+    .project {
+      display: grid;
+      gap: 40px;
+      align-items: center;
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    /* على الشاشات العريضة */
+    @media (min-width: 980px) {
+
+      /* عمودان: المعلومات والصورة */
+      .project {
+        grid-template-columns: .92fr 1.08fr;
+        gap: 72px;
+      }
+
+      /* في المشاريع المعكوسة تنتقل المعلومات إلى الجهة الأخرى */
+      .project.rev .meta {
+        order: 2;
+      }
+    }
+
+    /* رقم المشروع بتدرّج من لون المشروع */
+    .idx {
+      font: 800 2.6rem/1 var(--display);
+      background: linear-gradient(180deg, var(--c), transparent 120%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      letter-spacing: -.04em;
+    }
+
+    /* اسم المشروع */
+    .project h3 {
+      margin: 12px 0 6px;
+      font: 700 clamp(1.7rem, 3.2vw, 2.4rem)/1.12 var(--display);
+      letter-spacing: -.035em;
+    }
+
+    /* الاسم في العربية */
+    html[lang="ar"] .project h3 {
+      letter-spacing: 0;
+      line-height: 1.4;
+    }
+
+    /* نوع المشروع بلون المشروع */
+    .role {
+      margin: 0 0 18px;
+      color: var(--c);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    /* النوع في العربية */
+    html[lang="ar"] .role {
+      letter-spacing: 0;
+      font-size: .92rem;
+    }
+
+    /* الوصف */
+    .meta>p.desc {
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    /* الوصف في العربية */
+    html[lang="ar"] .meta>p.desc {
+      line-height: 1.9;
+    }
+
+    /* الوسوم */
+    .tags {
+      list-style: none;
+      margin: 0 0 22px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* كل وسم */
+    .tags li {
+      padding: 6px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .74rem;
+      letter-spacing: .04em;
+      transition: color .25s, border-color .25s, background .25s;
+    }
+
+    /* يتلوّن بلون المشروع عند المرور */
+    .tags li:hover {
+      color: var(--text);
+      border-color: var(--c);
+      background: color-mix(in srgb, var(--c) 14%, transparent);
+    }
+
+    /* سطر الألوان */
+    .palette {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 26px;
+      font-size: .72rem;
+      color: var(--muted);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* سطر الألوان في العربية */
+    html[lang="ar"] .palette {
+      letter-spacing: 0;
+      font-size: .86rem;
+    }
+
+    /* دوائر الألوان متداخلة */
+    .palette ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* كل دائرة */
+    .palette li {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      margin-inline-start: -8px;
+      transition: transform .3s var(--ease);
+      cursor: default;
+    }
+
+    /* الدائرة الأولى بلا تداخل */
+    .palette li:first-child {
+      margin-inline-start: 0;
+    }
+
+    /* ترتفع عند المرور */
+    .palette li:hover {
+      transform: translateY(-4px);
+      z-index: 2;
+    }
+
+    /* كود اللون يظهر فوق الدائرة */
+    .palette li::after {
+      content: attr(data-hex);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: #fff;
+      color: #111;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      direction: ltr;
+    }
+
+    /* إظهار الكود عند المرور */
+    .palette li:hover::after {
+      opacity: 1;
+      transform: translateX(-50%);
+    }
+
+    /* رابط المشروع */
+    .plink {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--c);
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: .04em;
+    }
+
+    /* السهم */
+    .plink svg {
+      width: 16px;
+      height: 16px;
+      transition: transform .3s var(--ease);
+    }
+
+    /* السهم يتحرك عند المرور */
+    .plink:hover svg {
+      transform: translate(3px, -3px);
+    }
+
+    /* السهم مقلوب في العربية */
+    html[dir="rtl"] .plink svg {
+      transform: scaleX(-1);
+    }
+
+    /* حركة السهم في العربية */
+    html[dir="rtl"] .plink:hover svg {
+      transform: scaleX(-1) translate(3px, -3px);
+    }
+
+    /* حاوية صورة المشروع بمنظور ثلاثي الأبعاد */
+    .shot {
+      position: relative;
+      perspective: 1400px;
+    }
+
+    /* توهج بلون المشروع خلف الصورة */
+    .shot::before {
+      content: "";
+      position: absolute;
+      inset: 8% 6% -6%;
+      border-radius: 30px;
+      background: var(--c);
+      filter: blur(70px);
+      opacity: .22;
+      transition: opacity .5s;
+      z-index: -1;
+    }
+
+    /* يزيد التوهج عند المرور */
+    .project:hover .shot::before {
+      opacity: .38;
+    }
+
+    /* نافذة المتصفح */
+    .window {
+      /* قص المحتوى والزوايا */
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      /* الحد والخلفية */
+      border: 1px solid var(--border-strong);
+      background: #0B0A12;
+      /* ظل عميق */
+      box-shadow: 0 40px 90px rgba(0, 0, 0, .6);
+      /* الميلان حسب مكان الماوس */
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      /* انتقال ناعم */
+      transition: transform .6s var(--ease), box-shadow .5s;
+      /* الحفاظ على العمق */
+      transform-style: preserve-3d;
+    }
+
+    /* ظل وحد بلون المشروع عند المرور */
+    .project:hover .window {
+      box-shadow: 0 54px 120px rgba(0, 0, 0, .65), 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent);
+    }
+
+    /* شريط المتصفح العلوي */
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 34px;
+      padding: 0 14px;
+      background: linear-gradient(90deg, #16141F, #0E0C16);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* النقاط الثلاث الملونة */
+    .bar i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #FF5F57;
+      box-shadow: 15px 0 0 #FEBC2E, 30px 0 0 #28C840;
+      flex: none;
+      margin-inline-end: 30px;
+    }
+
+    /* النقاط في العربية بالاتجاه المعاكس */
+    html[dir="rtl"] .bar i {
+      box-shadow: -15px 0 0 #FEBC2E, -30px 0 0 #28C840;
+    }
+
+    /* خانة الرابط */
+    .bar span {
+      flex: 1;
+      max-width: 340px;
+      margin-inline: auto;
+      padding: 4px 10px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .05);
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: ltr;
+    }
+
+    /* مساحة الصورة بلون خلفية المشروع */
+    .canvas {
+      background: var(--tint);
+      display: grid;
+      place-items: center;
+    }
+
+    /* الصورة بكامل العرض */
+    .canvas img {
+      width: 100%;
+    }
+
+    /* حشو حول صورة CoffeCam */
+    .canvas.pad {
+      padding: 22px;
+    }
+
+    /* حد أقصى لعرضها */
+    .canvas.pad img {
+      max-width: 440px;
+    }
+
+    /* لمعة تتبع الماوس فوق الصورة */
+    .sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(500px circle at var(--sx, 50%) var(--sy, 0%), rgba(255, 255, 255, .1), transparent 45%);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+
+    /* تظهر اللمعة عند المرور */
+    .project:hover .sheen {
+      opacity: 1;
+    }
+
+    /* قسم المهارات */
+    /* شبكة البطاقات */
+    .skills-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    /* عمودان */
+    @media (min-width: 700px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ثلاثة أعمدة */
+    @media (min-width: 1020px) {
+      .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* بطاقة المهارة */
+    .card {
+      /* الحشو */
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      /* الحد والزوايا */
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      /* خلفية خفيفة */
+      background: linear-gradient(145deg, rgba(255, 255, 255, .035), transparent);
+      /* الانتقالات */
+      transition: border-color .3s, transform .35s var(--ease), box-shadow .3s;
+    }
+
+    /* ضوء يتبع الماوس داخل البطاقة */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), rgba(160, 102, 255, .2), transparent 62%);
+      opacity: 0;
+      transition: opacity .35s;
+      pointer-events: none;
+    }
+
+    /* ترتفع البطاقة عند المرور */
+    .card:hover {
+      border-color: rgba(160, 102, 255, .6);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, .5);
+    }
+
+    /* يظهر الضوء عند المرور */
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* المحتوى فوق الضوء */
+    .card>* {
+      position: relative;
+    }
+
+    /* مربع الأيقونة */
+    .card .ico {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      background: var(--accent-soft);
+      color: #CDB2FF;
+      border: 1px solid rgba(160, 102, 255, .25);
+    }
+
+    /* حجم الأيقونة */
+    .card .ico svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* عنوان المهارة */
+    .card h4 {
+      margin: 0 0 10px;
+      font: 700 1.05rem/1.3 var(--display);
+      letter-spacing: -.01em;
+    }
+
+    /* العنوان في العربية */
+    html[lang="ar"] .card h4 {
+      letter-spacing: 0;
+      font-size: 1.15rem;
+    }
+
+    /* الوصف */
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .93rem;
+    }
+
+    /* الوصف في العربية */
+    html[lang="ar"] .card p {
+      line-height: 1.85;
+      font-size: 1rem;
+    }
+
+    /* البطاقة المميزة باللون الوردي */
+    .card--hi {
+      border-color: rgba(255, 111, 177, .4);
+      background: radial-gradient(120% 100% at 100% 0%, rgba(255, 111, 177, .16), transparent 60%), linear-gradient(145deg, rgba(160, 102, 255, .12), transparent);
+    }
+
+    /* أيقونتها وردية */
+    .card--hi .ico {
+      background: rgba(255, 111, 177, .14);
+      color: #FFB3D6;
+      border-color: rgba(255, 111, 177, .3);
+    }
+
+    /* قسم «طريقتي» */
+    /* قائمة الخطوات بعدّاد تلقائي */
+    .steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 20px;
+      counter-reset: s;
+      position: relative;
+    }
+
+    /* أربعة أعمدة وخط متدرّج يصل بينها */
+    @media (min-width: 900px) {
+      .steps {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .steps::before {
+        content: "";
+        position: absolute;
+        top: 31px;
+        inset-inline: 40px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(160, 102, 255, .6), rgba(255, 111, 177, .6), transparent);
+      }
+    }
+
+    /* كل خطوة */
+    .steps li {
+      position: relative;
+      counter-increment: s;
+      padding: 0 4px;
+    }
+
+    /* دائرة الرقم */
+    .steps li::before {
+      /* الرقم 01، 02، ... */
+      content: counter(s, decimal-leading-zero);
+      /* حجم الدائرة */
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 22px;
+      /* حدها */
+      border-radius: 50%;
+      border: 1px solid rgba(160, 102, 255, .45);
+      /* خلفيتها */
+      background: radial-gradient(circle at 30% 25%, rgba(160, 102, 255, .35), var(--bg) 70%);
+      /* خط الرقم */
+      font: 700 1rem/1 var(--display);
+      color: #fff;
+      /* حلقة وتوهج */
+      box-shadow: 0 0 0 6px var(--bg), 0 0 30px rgba(160, 102, 255, .35);
+    }
+
+    /* عنوان الخطوة */
+    .steps h4 {
+      margin: 0 0 8px;
+      font: 700 1.05rem/1.3 var(--display);
+    }
+
+    /* العنوان في العربية */
+    html[lang="ar"] .steps h4 {
+      font-size: 1.15rem;
+    }
+
+    /* الوصف */
+    .steps p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .93rem;
+    }
+
+    /* الوصف في العربية */
+    html[lang="ar"] .steps p {
+      line-height: 1.85;
+      font-size: 1rem;
+    }
+
+    /* قسم التواصل */
+    /* القسم في المنتصف */
+    .contact {
+      text-align: center;
+      padding-bottom: 56px;
+    }
+
+    /* الخط تحت العنوان في المنتصف */
+    .contact .tag h2::after {
+      margin-inline: auto;
+    }
+
+    /* الفقرة */
+    .contact-lead {
+      margin: -6px auto 34px;
+      max-width: 46ch;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+
+    /* البريد بخط كبير */
+    .mail {
+      display: inline-block;
+      margin: 0 0 30px;
+      font: 700 clamp(1.3rem, 5.2vw, 3.6rem)/1.15 var(--display);
+      letter-spacing: -.04em;
+      direction: ltr;
+      max-width: 100%;
+      transition: filter .3s;
+    }
+
+    /* توهج عند المرور */
+    .mail:hover {
+      filter: drop-shadow(0 0 24px rgba(160, 102, 255, .55));
+    }
+
+    /* صف أزرار التواصل */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* كل زر */
+    .pills a,
+    .pills button {
+      /* الشكل */
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 24px;
+      cursor: pointer;
+      /* الحد والخلفية */
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .025);
+      color: var(--text);
+      /* الخط والانتقالات */
+      font-size: .98rem;
+      transition: color .25s, border-color .25s, transform .3s var(--ease), box-shadow .3s;
+    }
+
+    /* الأيقونات */
+    .pills svg {
+      width: 17px;
+      height: 17px;
+      color: #CDB2FF;
+    }
+
+    /* عند المرور */
+    .pills a:hover,
+    .pills button:hover {
+      color: #E3D2FF;
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(160, 102, 255, .22);
+    }
+
+    /* حقوق النشر */
+    .copy {
+      margin-top: 64px;
+      color: var(--muted);
+      font-size: .8rem;
+      letter-spacing: .08em;
+    }
+
+    /* حقوق النشر في العربية */
+    html[lang="ar"] .copy {
+      letter-spacing: 0;
+      font-size: .9rem;
+    }
+
+    /* رسالة «نُسخ البريد» */
+    .toast {
+      position: fixed;
+      z-index: 260;
+      left: 50%;
+      bottom: 28px;
+      transform: translate(-50%, 12px);
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s var(--ease);
+      box-shadow: 0 12px 30px rgba(160, 102, 255, .45);
+    }
+
+    /* ظهور الرسالة */
+    .toast.on {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* حركة ظهور العناصر عند التمرير */
+    /* قبل الظهور: شفاف ومنزاح للأسفل */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+
+    /* بعد الظهور */
+    .js .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* تأخيرات متتالية */
+    .js .d1 {
+      transition-delay: .12s;
+    }
+
+    .js .d2 {
+      transition-delay: .24s;
+    }
+
+    /* ---------- الشاشات الصغيرة ---------- */
+    /* أقل من 980 بكسل (تابلت وجوال) */
+    @media (max-width: 979px) {
+
+      /* القسم الأول يبدأ من الأعلى */
+      .hero {
+        padding-top: 112px;
+        justify-content: flex-start;
+      }
+
+      /* الصورة والنص فوق بعضهما */
+      .hero-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      /* الصورة أولاً */
+      .visual {
+        order: -1;
+        width: min(86%, 380px);
+      }
+
+      /* النص في المنتصف */
+      .copyblock {
+        text-align: center;
+      }
+
+      /* الفقرة في المنتصف */
+      .lead {
+        margin-inline: auto;
+      }
+
+      /* الأزرار والأرقام في المنتصف */
+      .btns,
+      .stats {
+        justify-content: center;
+      }
+    }
+
+    /* الجوال (أقل من 600 بكسل) */
+    @media (max-width: 600px) {
+
+      /* إخفاء السطر الصغير تحت الاسم */
+      .brand small {
+        display: none;
+      }
+
+      /* تصغير الاسم */
+      .brand b {
+        font-size: 15px;
+      }
+
+      /* تصغير زر «لنتحدث» */
+      .cta {
+        padding: 9px 14px;
+        white-space: nowrap;
+        font-size: .7rem;
+      }
+
+      /* تصغير زر اللغة */
+      .lang {
+        padding: 8px 10px;
+      }
+
+      /* تصغير البطاقات العائمة */
+      .chip {
+        font-size: .74rem;
+        padding: 7px 10px 7px 7px;
+        gap: 8px;
+      }
+
+      /* تصغير الأيقونات */
+      .chip .ico {
+        width: 28px;
+        height: 28px;
+      }
+
+      /* إخفاء بطاقة مسارات المستخدم */
+      .chip--b {
+        display: none;
+      }
+
+      /* بطاقة Figma أعلى الجهة الأخرى */
+      .chip--a {
+        top: -4%;
+        inset-inline-start: auto;
+        inset-inline-end: -8%;
+      }
+
+      /* بطاقة RTL في الأسفل */
+      .chip--c {
+        bottom: -6%;
+        inset-inline-start: -8%;
+      }
+
+      /* مسافة تحت الصورة */
+      .visual {
+        margin-bottom: 20px;
+      }
+
+      /* بطاقات الأرقام: ثلث لكل واحدة */
+      .stats li {
+        min-width: 0;
+        flex: 1 1 30%;
+        padding: 12px 12px;
+      }
+
+      /* تصغير الأرقام */
+      .stats strong {
+        font-size: 1.25rem;
+      }
+
+      /* المعلومات سطر تحت سطر */
+      .facts li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      /* حشو أقل للاقتباس */
+      .quote {
+        padding: 32px 24px 26px;
+      }
+    }
+
+    /* أقل من 400 بكسل: إخفاء زر «لنتحدث» */
+    @media (max-width: 400px) {
+      .cta {
+        display: none;
+      }
+    }
+
+    /* لمن يفضّل تقليل الحركة في إعدادات جهازه */
+    @media (prefers-reduced-motion: reduce) {
+
+      /* إيقاف الحركات تقريباً */
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+
+      /* بدون تمرير ناعم */
+      html {
+        scroll-behavior: auto;
+      }
+
+      /* إظهار كل شيء فوراً */
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* نهاية أنماط التصميم */
+  </style>
+  <!-- نهاية رأس الصفحة -->
+</head>
+<!-- بداية محتوى الصفحة -->
+
+<body>
+  <!-- رابط مخفي للانتقال إلى الأعمال (للوحة المفاتيح) -->
+  <a class="skip" href="#work" data-i18n="skip">Skip to work</a>
+  <!-- طبقة الحبيبات -->
+  <div class="grain" aria-hidden="true"></div>
+  <!-- الشفق الملون -->
+  <div class="aurora" aria-hidden="true"></div>
+  <!-- شبكة النقاط -->
+  <div class="dots" aria-hidden="true"></div>
+  <!-- شريط التقدّم -->
+  <div class="progress" aria-hidden="true"></div>
+  <!-- توهج الماوس -->
+  <div class="glow" aria-hidden="true"></div>
+
+  <!-- شريط التنقل العلوي -->
+  <nav class="nav" aria-label="Main" data-i18n-aria="nav">
+    <!-- الشعار: يعيد إلى أعلى الصفحة -->
+    <a href="#top" class="brand" aria-label="Ghina Alazmeh, home" data-i18n-aria="home">
+      <!-- أيقونة الشعار: حرف G بتدرّج ونقطة وردية -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#A066FF" />
+            <stop offset="1" stop-color="#FF6FB1" />
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="62" height="62" rx="17" fill="#110E1C" stroke="rgba(255,255,255,.12)" />
+        <path d="M44 22a15 15 0 1 0 3 12H33" fill="none" stroke="url(#lg)" stroke-width="6" stroke-linecap="round" />
+        <circle cx="47" cy="17" r="3.2" fill="#FF6FB1" />
+      </svg>
+      <!-- الاسم والسطر الصغير تحته -->
+      <span><b data-i18n="name">Ghina Alazmeh</b><small data-i18n="brand.sub">UI · UX · Design</small></span>
+      <!-- نهاية الشعار -->
+    </a>
+    <!-- روابط الأقسام -->
+    <div class="links">
+      <!-- رابط «عنّي» -->
+      <a href="#about" data-i18n="nav.about">About</a>
+      <!-- رابط «أعمالي» -->
+      <a href="#work" data-i18n="nav.work">Work</a>
+      <!-- رابط «مهاراتي» -->
+      <a href="#skills" data-i18n="nav.skills">Skills</a>
+      <!-- رابط «تواصل» -->
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <!-- نهاية الروابط -->
+    </div>
+    <!-- أزرار الطرف الآخر -->
+    <div class="actions">
+      <!-- رابط LinkedIn -->
+      <a class="social" href="https://www.linkedin.com/in/ghina-alazmeh-4aa152329/" target="_blank"
+        rel="noopener">LinkedIn</a>
+      <!-- زر تبديل اللغة -->
+      <button type="button" class="lang" id="lang" lang="ar">العربية</button>
+      <!-- زر «لنتحدث» -->
+      <a class="cta" href="#contact" data-i18n="nav.cta">Let's talk</a>
+      <!-- نهاية الأزرار -->
+    </div>
+    <!-- نهاية الشريط العلوي -->
+  </nav>
+
+  <!-- القسم الأول (Hero) -->
+  <header class="hero" id="top">
+    <!-- شبكة العمودين -->
+    <div class="hero-grid">
+      <!-- عمود النص -->
+      <div class="copyblock reveal">
+        <!-- الشارة الصغيرة -->
+        <p class="eyebrow"><svg viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M6 .5 11.5 6 6 11.5.5 6z" fill="currentColor" />
+          </svg><span data-i18n="hero.eyebrow">UI/UX Designer · Web &amp; Mobile</span></p>
+        <!-- العنوان الرئيسي، والجزء الملوّن بالتدرّج -->
+        <h1 data-i18n-html="hero.title">Intuitive digital experiences where <span class="grad">emotion meets
+            function.</span></h1>
+        <!-- الفقرة التعريفية -->
+        <p class="lead" data-i18n="hero.lead">I'm Ghina, a UI/UX designer and software engineering graduate. I design
+          web and mobile products in Figma, from the first user flow to polished, responsive interfaces, in Arabic and
+          English.</p>
+        <!-- الأزرار -->
+        <div class="btns">
+          <!-- زر «شاهد أعمالي» مع سهم -->
+          <a href="#work" class="btn btn--primary magnet"><span data-i18n="hero.cta1">View selected work</span><svg
+              class="dir" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- زر «تواصل معي» -->
+          <a href="#contact" class="btn btn--ghost magnet" data-i18n="hero.cta2">Get in touch</a>
+          <!-- نهاية الأزرار -->
+        </div>
+        <!-- بطاقات الأرقام -->
+        <ul class="stats">
+          <!-- +2 سنوات (العدد يتحرك عند الظهور) -->
+          <li><strong class="grad" data-count="2" data-suffix="+">2+</strong><span data-i18n="stat1">Years in
+              UI/UX</span></li>
+          <!-- +10 مشاريع -->
+          <li><strong class="grad" data-count="10" data-suffix="+">10+</strong><span data-i18n="stat2">Projects
+              designed</span></li>
+          <!-- عربي وإنكليزي -->
+          <li><strong class="grad">AR · EN</strong><span data-i18n="stat3">Bilingual &amp; RTL</span></li>
+          <!-- نهاية البطاقات -->
+        </ul>
+        <!-- نهاية عمود النص -->
+      </div>
+
+      <!-- عمود الصورة (زخرفي، تتجاهله قارئات الشاشة) -->
+      <div class="visual reveal d1" aria-hidden="true">
+        <!-- الكرة المضيئة -->
+        <div class="orb"></div>
+        <!-- طبقة الصورة -->
+        <div class="layer" id="layer">
+          <!-- صورة غنى -->
+          <img src="assets/ghina_avatar2.webp" width="337" height="367" alt="" fetchpriority="high">
+          <!-- إطار التحديد: الزوايا الأربع واسم الطبقة والمقاس -->
+          <div class="frame"><i></i><i></i><i></i><i></i><span class="frame-name">ghina.png</span><span
+              class="frame-size" id="fsize">337 × 367</span></div>
+          <!-- نهاية طبقة الصورة -->
+        </div>
+        <!-- بطاقة Figma العائمة -->
+        <div class="chip chip--a" id="chipA"><span class="ico"><svg viewBox="0 0 24 24">
+              <path
+                d="M9 3h3a3 3 0 0 1 0 6H9zM9 9h3a3 3 0 0 1 0 6H9zM9 3H6a3 3 0 0 0 0 6h3zM9 9H6a3 3 0 0 0 0 6h3zM9 15H6a3 3 0 1 0 3 3z"
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+              <circle cx="15" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg></span><span>Figma<small data-i18n="chip.a">Design &amp; prototypes</small></span></div>
+        <!-- بطاقة مسارات المستخدم -->
+        <div class="chip chip--b" id="chipB"><span class="ico"><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <rect x="14" y="14" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M6.5 10v4a3 3 0 0 0 3 3H14" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" />
+            </svg></span><span data-i18n-html="chip.b">User flows<small>First tap to done</small></span></div>
+        <!-- بطاقة RTL مع دوائر الألوان -->
+        <div class="chip chip--c" id="chipC"><span class="ico"><svg viewBox="0 0 24 24">
+              <path d="M4 8h13M13 4l4 4-4 4M20 16H7M11 12l-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg></span><span data-i18n-html="chip.c">RTL · LTR<small>Arabic &amp; English</small></span><span
+            class="sw"><b style="background:#A066FF"></b><b style="background:#FF6FB1"></b><b
+              style="background:#F6F4FF"></b></span></div>
+        <!-- مؤشر غنى المتحرك -->
+        <div class="mate" id="mate"><svg viewBox="0 0 22 22">
+            <path d="M2 2l6.6 17.2 2.6-7.1 7.1-2.6L2 2z" fill="#FF6FB1" stroke="#fff" stroke-width="1.6"
+              stroke-linejoin="round" />
+          </svg><span data-i18n="mate">Ghina</span></div>
+        <!-- نهاية عمود الصورة -->
+      </div>
+      <!-- نهاية الشبكة -->
+    </div>
+    <!-- الخط العمودي أسفل القسم -->
+    <div class="hint" aria-hidden="true"></div>
+    <!-- نهاية القسم الأول -->
+  </header>
+
+  <!-- الشريط المتحرك -->
+  <section class="strip" aria-label="Disciplines" data-i18n-aria="strip">
+    <!-- كلماته تُملأ من الجافاسكربت حسب اللغة -->
+    <div class="marquee" id="marquee"></div>
+    <!-- نهاية الشريط المتحرك -->
+  </section>
+
+  <!-- المحتوى الرئيسي -->
+  <main>
+    <!-- قسم «عنّي» -->
+    <section class="sec" id="about" aria-labelledby="about-h">
+      <!-- عنوان القسم -->
+      <div class="tag reveal"><small data-i18n="about.k">Who I am</small>
+        <h2 id="about-h" data-i18n="about.t">About</h2>
+      </div>
+      <!-- شبكة القسم -->
+      <div class="about-grid">
+        <!-- بطاقة الاقتباس -->
+        <blockquote class="quote reveal">
+          <!-- نص الاقتباس -->
+          <p data-i18n="about.q">Great design is invisible. It simply feels right.</p>
+          <!-- الصورة والاسم تحت الاقتباس -->
+          <footer><img src="assets/ghina_avatar2.webp" width="337" height="367" alt=""><span><b data-i18n="name">Ghina
+                Alazmeh</b><span data-i18n="about.qr">UI/UX Designer</span></span></footer>
+          <!-- نهاية الاقتباس -->
+        </blockquote>
+        <!-- عمود النبذة -->
+        <div class="about-copy reveal d1">
+          <!-- الفقرة الأولى -->
+          <p data-i18n-html="about.p1">I'm <strong>Ghina Alazmeh</strong>,a software engineering graduate, currently
+            studying computer techniques at the Applied College, with hands-on experience in UI/UX design. I work in
+            Figma, designing responsive interfaces and the user flows behind them.
+          </p>
+          <!-- الفقرة الثانية -->
+          <p data-i18n="about.p2">My approach combines analytical thinking with creative exploration: every pixel has a
+            purpose, and every interaction tells a story. My engineering grounding in object-oriented programming and
+            databases means the designs I hand over are built to be built.</p>
+          <!-- قائمة المعلومات -->
+          <ul class="facts">
+            <!-- الدراسة -->
+            <li><span data-i18n="f.edu">Education</span><span data-i18n="f.edu.v">B.Sc. Software Engineering</span><br>
+              <span data-i18n="f.edu.v">4th Year Student, Computer Techniques | Applied College</span>
+            </li>
+            <!-- الأدوات -->
+            <li><span data-i18n="f.tools">Tools</span><span data-i18n="f.tools.v">Figma — design, components and
+                interactive prototypes</span></li>
+            <!-- التركيز -->
+            <li><span data-i18n="f.focus">Focus</span><span data-i18n="f.focus.v">UI design · UX · user flows ·
+                responsive web and mobile</span></li>
+            <!-- اللغات -->
+            <li><span data-i18n="f.lang">Languages</span><span data-i18n="f.lang.v">Arabic · English — interfaces in
+                both directions</span></li>
+            <!-- نهاية القائمة -->
+          </ul>
+          <!-- نهاية عمود النبذة -->
+        </div>
+        <!-- نهاية الشبكة -->
+      </div>
+      <!-- نهاية قسم «عنّي» -->
+    </section>
+
+    <!-- قسم الأعمال -->
+    <section class="sec" id="work" aria-labelledby="work-h">
+      <!-- رأس القسم -->
+      <div class="work-head reveal">
+        <!-- عنوان القسم -->
+        <div class="tag" style="margin-bottom:24px"><small data-i18n="work.k">Selected projects</small>
+          <h2 id="work-h" data-i18n="work.t">Work</h2>
+        </div>
+        <!-- الفقرة بجانب العنوان -->
+        <p data-i18n="work.intro">Four products, four visual languages: each palette is drawn from what the product is
+          about.</p>
+        <!-- نهاية رأس القسم -->
+      </div>
+
+      <!-- المشروع 1: DR.Machine-->
+      <article class="project reveal" id="afaq" style="--c:#4FC3B6;--tint:#2F393F">
+        <!-- عمود المعلومات -->
+        <div class="meta">
+          <!-- رقم المشروع -->
+          <span class="idx">01</span>
+          <!-- اسم المشروع -->
+          <h3 data-i18n="p1.t">Dr.Machine-Engineering the Future of
+            Industry</h3>
+          <!-- نوع المشروع -->
+          <p class="role" data-i18n="p1.r">Industrial Automation · Embedded Systems & AI</p>
+          <!-- الوصف -->
+          <p class="desc" data-i18n="p1.d">A sleek industrial platform featuring deep navy tones inspired by neural
+            network nodes, complemented by smooth animations and an intuitive UI to present smart automation systems.
+          </p>
+          <!-- الوسوم -->
+          <ul class="tags">
+            <li data-i18n="t.genui">Industrial AI</li>
+            <li>AR / EN</li>
+            <li>RTL</li>
+            <li data-i18n="t.themes">Dark &amp; light</li>
+          </ul>
+          <!-- ألوان المشروع (يظهر الكود عند المرور) -->
+          <div class="palette"><span data-i18n="palette">Palette</span>
+            <ul>
+              <li data-hex="#0F172A" style="background:#0F172A"></li>
+              <li data-hex="#00B4D8" style="background:#00B4D8"></li>
+              <li data-hex="#0077B6" style="background:#0077B6"></li>
+            </ul>
+          </div>
+          <!-- رابط الموقع المباشر -->
+          <a class="plink" href="https://drmachine-rho.vercel.app/" target="_blank" rel="noopener"><span
+              data-i18n="open.live">View live site</span><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- نهاية عمود المعلومات -->
+        </div>
+        <!-- نافذة متصفح فيها صورة المشروع -->
+        <div class="shot">
+          <div class="window">
+            <div class="bar"><i></i><span>DrMachine.vercel.app</span></div>
+            <div class="canvas"><img src="assets/DrMachine.png" width="1280" height="710" loading="lazy"
+                alt="DrMachine's search screen with a smart brief box, filters and open projects"
+                data-i18n-alt="p1.alt">
+            </div>
+            <div class="sheen"></div>
+          </div>
+        </div>
+        <!-- نهاية المشروع 1 -->
+      </article>
+
+      <article class="project reveal" id="afaq" style="--c:#4FC3B6;--tint:#2F393F">
+        <!-- عمود المعلومات -->
+        <div class="meta">
+          <!-- رقم المشروع -->
+          <span class="idx">02</span>
+          <!-- اسم المشروع -->
+          <h3 data-i18n="p1.t">Afaq — Syrian Freelance Network</h3>
+          <!-- نوع المشروع -->
+          <p class="role" data-i18n="p1.r">Web application · Generative UI</p>
+          <!-- الوصف -->
+          <p class="desc" data-i18n="p1.d">An intelligent freelance platform for the Syrian market, with dynamic
+            generative UI layouts, instant switching between Arabic and English with full RTL support, and responsive
+            dark and light themes.</p>
+          <!-- الوسوم -->
+          <ul class="tags">
+            <li data-i18n="t.genui">Generative UI</li>
+            <li>AR / EN</li>
+            <li>RTL</li>
+            <li data-i18n="t.themes">Dark &amp; light</li>
+          </ul>
+          <!-- ألوان المشروع (يظهر الكود عند المرور) -->
+          <div class="palette"><span data-i18n="palette">Palette</span>
+            <ul>
+              <li data-hex="#2F393F" style="background:#2F393F"></li>
+              <li data-hex="#4FC3B6" style="background:#4FC3B6"></li>
+              <li data-hex="#F6B054" style="background:#F6B054"></li>
+            </ul>
+          </div>
+          <!-- رابط الموقع المباشر -->
+          <a class="plink" href="https://afaq-generative-ui.vercel.app/" target="_blank" rel="noopener"><span
+              data-i18n="open.live">View live site</span><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- نهاية عمود المعلومات -->
+        </div>
+        <!-- نافذة متصفح فيها صورة المشروع -->
+        <div class="shot">
+          <div class="window">
+            <div class="bar"><i></i><span>afaq-generative-ui.vercel.app</span></div>
+            <div class="canvas"><img src="assets/afaq.webp" width="1280" height="710" loading="lazy"
+                alt="Afaq's search screen with a smart brief box, filters and open projects" data-i18n-alt="p1.alt">
+            </div>
+            <div class="sheen"></div>
+          </div>
+        </div>
+        <!-- نهاية المشروع 2 -->
+      </article>
+
+      <!-- المشروع 3: AquaAI (الصورة في الجهة الأخرى) -->
+      <article class="project rev reveal" id="aquaai" style="--c:#9C94FF;--tint:#0D1B2B">
+        <!-- عمود المعلومات -->
+        <div class="meta">
+          <!-- رقم المشروع -->
+          <span class="idx">03</span>
+          <!-- اسم المشروع -->
+          <h3 data-i18n="p2.t">AquaAI — Smart Water Prediction</h3>
+          <!-- نوع المشروع -->
+          <p class="role" data-i18n="p2.r">Web application · Machine learning</p>
+          <!-- الوصف -->
+          <p class="desc" data-i18n="p2.d">A platform that uses machine learning to predict daily water use from
+            historical data and the weather: temperature, humidity and rainfall. Its cloud-and-water palette pairs deep
+            oceanic blues with atmospheric greys to reflect the system's purpose.</p>
+          <!-- الوسوم -->
+          <ul class="tags">
+            <li data-i18n="t.dash">Dashboard</li>
+            <li data-i18n="t.dataviz">Data display</li>
+            <li data-i18n="t.arfirst">Arabic-first</li>
+            <li>ML</li>
+          </ul>
+          <!-- ألوان المشروع -->
+          <div class="palette"><span data-i18n="palette">Palette</span>
+            <ul>
+              <li data-hex="#0D1B2B" style="background:#0D1B2B"></li>
+              <li data-hex="#7E77C6" style="background:#7E77C6"></li>
+              <li data-hex="#E7E9F0" style="background:#E7E9F0"></li>
+            </ul>
+          </div>
+          <!-- رابط نموذج Figma -->
+          <a class="plink"
+            href="https://www.figma.com/proto/h4HhKsyKZM41SUNgadz4TE/Untitled?node-id=1-2&amp;p=f&amp;t=OmyfNlEQ7l5z0KQS-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;starting-point-node-id=1%3A2"
+            target="_blank" rel="noopener"><span data-i18n="open.figma">View Figma prototype</span><svg
+              viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- نهاية عمود المعلومات -->
+        </div>
+        <!-- نافذة متصفح فيها صورة المشروع -->
+        <div class="shot">
+          <div class="window">
+            <div class="bar"><i></i><span>figma.com / AquaAI</span></div>
+            <div class="canvas"><img src="assets/aquaai.webp" width="1512" height="982" loading="lazy"
+                alt="AquaAI's Arabic dashboard with daily, weekly and monthly water use" data-i18n-alt="p2.alt"></div>
+            <div class="sheen"></div>
+          </div>
+        </div>
+        <!-- نهاية المشروع 3 -->
+      </article>
+
+      <!-- المشروع 4: CoffeCam -->
+      <article class="project reveal" id="coffecam" style="--c:#E0B48C;--tint:#492919">
+        <!-- عمود المعلومات -->
+        <div class="meta">
+          <!-- رقم المشروع -->
+          <span class="idx">04</span>
+          <!-- اسم المشروع -->
+          <h3 data-i18n="p3.t">CoffeCam — Coffee Ordering App</h3>
+          <!-- نوع المشروع -->
+          <p class="role" data-i18n="p3.r">Mobile application · 8 screens</p>
+          <!-- الوصف -->
+          <p class="desc" data-i18n="p3.d">An app that makes it easy to buy your preferred kind of coffee. The colours
+            are drawn from coffee and its shades, for a visually comfortable experience from welcome screen to checkout.
+          </p>
+          <!-- الوسوم -->
+          <ul class="tags">
+            <li data-i18n="t.mobile">Mobile UI</li>
+            <li data-i18n="t.ecom">Ordering &amp; checkout</li>
+            <li data-i18n="t.proto">Prototype</li>
+          </ul>
+          <!-- ألوان المشروع -->
+          <div class="palette"><span data-i18n="palette">Palette</span>
+            <ul>
+              <li data-hex="#492919" style="background:#492919"></li>
+              <li data-hex="#8A5A3B" style="background:#8A5A3B"></li>
+              <li data-hex="#E6CDB1" style="background:#E6CDB1"></li>
+            </ul>
+          </div>
+          <!-- رابط نموذج Figma -->
+          <a class="plink"
+            href="https://www.figma.com/proto/LnJk1C4O153kJO3Cvwt1UG/CoffeCam?node-id=1-2&amp;starting-point-node-id=1%3A2&amp;t=4A1jAIqDNpvhMUg3-1"
+            target="_blank" rel="noopener"><span data-i18n="open.figma">View Figma prototype</span><svg
+              viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- نهاية عمود المعلومات -->
+        </div>
+        <!-- نافذة متصفح فيها الصورة (مع حشو حولها) -->
+        <div class="shot">
+          <div class="window">
+            <div class="bar"><i></i><span>figma.com / CoffeCam</span></div>
+            <div class="canvas pad"><img src="assets/coffecam.webp" width="898" height="914" loading="lazy"
+                alt="Eight CoffeCam screens from welcome to payment" data-i18n-alt="p3.alt"></div>
+            <div class="sheen"></div>
+          </div>
+        </div>
+        <!-- نهاية المشروع 4 -->
+      </article>
+
+      <!-- المشروع 5: GHFASH (الصورة في الجهة الأخرى) -->
+      <article class="project rev reveal" id="ghfash" style="--c:#E7B892;--tint:#EDDECD">
+        <!-- عمود المعلومات -->
+        <div class="meta">
+          <!-- رقم المشروع -->
+          <span class="idx">05</span>
+          <!-- اسم المشروع -->
+          <h3 data-i18n="p4.t">GHFASH — Premium Fashion Landing Page</h3>
+          <!-- نوع المشروع -->
+          <p class="role" data-i18n="p4.r">Web &amp; mobile · E-commerce</p>
+          <!-- الوصف -->
+          <p class="desc" data-i18n="p4.d">A modern, minimalist e-commerce landing page for a high-end fashion brand,
+            focused on a clean user experience and a sophisticated palette of earthy neutrals.</p>
+          <!-- الوسوم -->
+          <ul class="tags">
+            <li data-i18n="t.landing">Landing page</li>
+            <li data-i18n="t.brand">Brand UI</li>
+            <li data-i18n="t.resp">Responsive</li>
+          </ul>
+          <!-- ألوان المشروع -->
+          <div class="palette"><span data-i18n="palette">Palette</span>
+            <ul>
+              <li data-hex="#EDDECD" style="background:#EDDECD"></li>
+              <li data-hex="#CCAA8F" style="background:#CCAA8F"></li>
+              <li data-hex="#33261F" style="background:#33261F"></li>
+            </ul>
+          </div>
+          <!-- رابط نموذج Figma -->
+          <a class="plink"
+            href="https://www.figma.com/proto/MJ2bT9AauUDCaMF5fnwJXS/Untitled?node-id=1-2&amp;t=cGx1YpqyOqg7R2og-1"
+            target="_blank" rel="noopener"><span data-i18n="open.figma">View Figma prototype</span><svg
+              viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></a>
+          <!-- نهاية عمود المعلومات -->
+        </div>
+        <!-- نافذة متصفح فيها صورة المشروع -->
+        <div class="shot">
+          <div class="window">
+            <div class="bar"><i></i><span>figma.com / GHFASH</span></div>
+            <div class="canvas"><img src="assets/ghfash.webp" width="791" height="409" loading="lazy"
+                alt="GHFASH landing page with a bold serif headline beside a model" data-i18n-alt="p4.alt"></div>
+            <div class="sheen"></div>
+          </div>
+        </div>
+        <!-- نهاية المشروع 5 -->
+      </article>
+      <!-- نهاية قسم الأعمال -->
+    </section>
+
+    <!-- قسم المهارات -->
+    <section class="sec" id="skills" aria-labelledby="skills-h">
+      <!-- عنوان القسم -->
+      <div class="tag reveal"><small data-i18n="skills.k">What I bring</small>
+        <h2 id="skills-h" data-i18n="skills.t">Skills</h2>
+      </div>
+      <!-- شبكة البطاقات -->
+      <div class="skills-grid">
+        <!-- مهارة: تصميم الواجهات -->
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M3 8h18M8 21h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg></div>
+          <h4 data-i18n="s1.t">UI Design</h4>
+          <p data-i18n="s1.d">Clean, consistent interfaces for web and mobile, with colour, type and spacing chosen for
+            the product and its users.</p>
+        </div>
+        <!-- مهارة: تجربة المستخدم ومساراته -->
+        <div class="card reveal d1">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <rect x="14" y="14" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M6.5 10v4a3 3 0 0 0 3 3H14" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" />
+            </svg></div>
+          <h4 data-i18n="s2.t">UX &amp; User Flows</h4>
+          <p data-i18n="s2.d">Mapping how people move through a product, from the first screen to the goal, before a
+            single pixel is polished.</p>
+        </div>
+        <!-- مهارة: النماذج التفاعلية على Figma -->
+        <div class="card reveal d2">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <path d="M5 3l12 8-5.5 1.5L9 18z" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linejoin="round" />
+              <path d="M14 15l4 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg></div>
+          <h4 data-i18n="s3.t">Prototyping in Figma</h4>
+          <p data-i18n="s3.d">Clickable Figma prototypes that let clients and developers try the product before it is
+            built.</p>
+        </div>
+        <!-- مهارة: التصميم المتجاوب -->
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <rect x="2" y="5" width="12" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <rect x="16" y="9" width="6" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg></div>
+          <h4 data-i18n="s4.t">Responsive Design</h4>
+          <p data-i18n="s4.d">Layouts that hold together from a phone to a wide desktop screen.</p>
+        </div>
+        <!-- مهارة: الخلفية الهندسية -->
+        <div class="card reveal d1">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <ellipse cx="12" cy="6" rx="8" ry="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" fill="none"
+                stroke="currentColor" stroke-width="1.6" />
+            </svg></div>
+          <h4 data-i18n="s5.t">Engineering Background</h4>
+          <p data-i18n="s5.d">Object-oriented programming and databases: designs that respect how software is really
+            built, and clear hand-offs.</p>
+        </div>
+        <!-- مهارة: العربية أولاً وRTL (بطاقة مميزة) -->
+        <div class="card card--hi reveal d2">
+          <div class="ico"><svg viewBox="0 0 24 24">
+              <path d="M4 8h13M13 4l4 4-4 4M20 16H7M11 12l-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg></div>
+          <h4 data-i18n="s6.t">Arabic-first &amp; RTL</h4>
+          <p data-i18n="s6.d">Bilingual interfaces that work right to left as naturally as left to right, as in Afaq and
+            AquaAI.</p>
+        </div>
+        <!-- نهاية الشبكة -->
+      </div>
+      <!-- نهاية قسم المهارات -->
+    </section>
+
+    <!-- قسم «طريقتي» -->
+    <section class="sec" id="process" aria-labelledby="process-h">
+      <!-- عنوان القسم -->
+      <div class="tag reveal"><small data-i18n="pr.k">From idea to prototype</small>
+        <h2 id="process-h" data-i18n="pr.t">Process</h2>
+      </div>
+      <!-- قائمة الخطوات -->
+      <ol class="steps reveal">
+        <!-- الخطوة 1: الفهم -->
+        <li>
+          <h4 data-i18n="pr1.t">Understand</h4>
+          <p data-i18n="pr1.d">Who the product is for and the problem it has to solve.</p>
+        </li>
+        <!-- الخطوة 2: رسم المسارات -->
+        <li>
+          <h4 data-i18n="pr2.t">Map the flows</h4>
+          <p data-i18n="pr2.d">The paths people take, screen by screen, until the structure is clear.</p>
+        </li>
+        <!-- الخطوة 3: تصميم الواجهة -->
+        <li>
+          <h4 data-i18n="pr3.t">Design the interface</h4>
+          <p data-i18n="pr3.d">Colour, type and components, with a palette drawn from the subject.</p>
+        </li>
+        <!-- الخطوة 4: النموذج والتسليم -->
+        <li>
+          <h4 data-i18n="pr4.t">Prototype &amp; hand off</h4>
+          <p data-i18n="pr4.d">A clickable Figma prototype, ready to test and to build.</p>
+        </li>
+        <!-- نهاية القائمة -->
+      </ol>
+      <!-- نهاية قسم «طريقتي» -->
+    </section>
+    <!-- نهاية المحتوى الرئيسي -->
+  </main>
+
+  <!-- قسم التواصل -->
+  <footer class="sec contact" id="contact" aria-labelledby="contact-h">
+    <!-- عنوان القسم -->
+    <div class="tag reveal"><small data-i18n="c.k">Let's work together</small>
+      <h2 id="contact-h" data-i18n="c.t">Contact</h2>
+    </div>
+    <!-- الفقرة -->
+    <p class="contact-lead reveal" data-i18n="c.lead">Have a product that needs designing? I'd love to hear about it.
+    </p>
+    <!-- البريد (ينكسر عند @ على الشاشات الصغيرة) -->
+    <a class="mail grad reveal" href="mailto:ginaalazmeh@gmail.com">ginaalazmeh<wbr>@gmail.com</a>
+    <!-- أزرار التواصل -->
+    <div class="pills reveal">
+      <!-- زر نسخ البريد -->
+      <button type="button" id="copy"><svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7" />
+          <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor"
+            stroke-width="1.7" />
+        </svg><span data-i18n="c.copy">Copy email</span></button>
+      <!-- واتساب -->
+      <a href="https://wa.me/963998379653" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 20l1.3-4A8 8 0 1 1 8 19z" fill="none" stroke="currentColor" stroke-width="1.7"
+            stroke-linejoin="round" />
+        </svg>WhatsApp</a>
+      <!-- اتصال هاتفي -->
+      <a href="tel:+963998379653"><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"
+            fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+        </svg><span dir="ltr">+963 998 379 653</span></a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/ghina-alazmeh-4aa152329/" target="_blank" rel="noopener"><svg
+          viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor"
+            d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.95 1.32-1.95 2.69V21h-4V9.5Z" />
+        </svg>LinkedIn</a>
+      <!-- نهاية الأزرار -->
+    </div>
+    <!-- حقوق النشر -->
+    <p class="copy" data-i18n="c.copyright">© 2026 Ghina Alazmeh. Designed with intention.</p>
+    <!-- نهاية قسم التواصل -->
+  </footer>
+
+  <!-- رسالة التنبيه الصغيرة (مثل «نُسخ البريد») -->
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- السكربت الرئيسي -->
+  <script>
+    // دالة تنفّذ نفسها لعزل المتغيرات
+    (function () {
+      // الوضع الصارم لاكتشاف الأخطاء
+      'use strict';
+      // اختصار لعنصر html
+      var doc = document.documentElement;
+      // هل طلب المستخدم تقليل الحركة؟
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // هل الجهاز يعمل بماوس؟
+      var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      // ---------- النصوص ----------
+      // كلمات الشريط المتحرك باللغتين
+      var MARQUEE = {
+        // الكلمات الإنكليزية
+        en: ['UI Design', 'UX Design', 'User Flows', 'Figma', 'Prototyping', 'Responsive Design', 'Mobile Apps', 'Web Apps', 'Arabic & RTL'],
+        // الكلمات العربية
+        ar: ['تصميم الواجهات', 'تجربة المستخدم', 'مسارات المستخدم', 'Figma', 'النماذج التفاعلية', 'التصميم المتجاوب', 'تطبيقات الجوال', 'تطبيقات الويب', 'العربية و RTL']
+      };
+      // الترجمة العربية: كل مفتاح يقابل data-i18n في HTML
+      var AR = {
+        // نصوص التخطي والشعار
+        'skip': 'انتقل إلى الأعمال', 'nav': 'الرئيسية', 'home': 'غنى العظمة، الصفحة الرئيسية',
+        // الاسم والسطر تحت الاسم
+        'name': 'غنى العظمة', 'brand.sub': 'تصميم واجهات وتجربة مستخدم',
+        // روابط القائمة وزر «لنتحدث»
+        'nav.about': 'عنّي', 'nav.work': 'أعمالي', 'nav.skills': 'مهاراتي', 'nav.contact': 'تواصل', 'nav.cta': 'لنتحدث',
+        // الشارة
+        'hero.eyebrow': 'تصميم واجهات وتجربة المستخدم · ويب وجوال',
+        // العنوان الرئيسي
+        'hero.title': 'تجارب رقمية سلسة، <span class="grad">يلتقي فيها الإحساس بالوظيفة.</span>',
+        // الفقرة التعريفية
+        'hero.lead': 'أنا غنى، أعمل في تصميم الواجهات وتجربة المستخدم، ودرستُ هندسة البرمجيات. أصمّم منتجات ويب وجوال على Figma، من أول مسار للمستخدم حتى واجهات متقنة ومتجاوبة، بالعربية والإنكليزية.',
+        // الأزرار
+        'hero.cta1': 'شاهد أعمالي', 'hero.cta2': 'تواصل معي',
+        // أوصاف الأرقام
+        'stat1': 'سنوات في UI/UX', 'stat2': 'مشروعاً مصمّماً', 'stat3': 'ثنائية اللغة و RTL',
+        // بطاقة Figma
+        'chip.a': 'تصميم ونماذج تفاعلية',
+        // بطاقة مسارات المستخدم
+        'chip.b': 'مسارات المستخدم<small>من أول لمسة حتى الهدف</small>',
+        // بطاقة RTL
+        'chip.c': 'RTL · LTR<small>العربية والإنكليزية</small>',
+        // اسم المؤشر واسم الشريط المتحرك
+        'mate': 'غنى', 'strip': 'التخصصات',
+        // عنوان قسم «عنّي»
+        'about.k': 'من أنا', 'about.t': 'عنّي',
+        // الاقتباس
+        'about.q': 'التصميم الجيد لا يُرى. تشعر فقط أنه في مكانه.',
+        // صفة صاحبة الاقتباس
+        'about.qr': 'تصميم واجهات وتجربة المستخدم',
+        // الفقرة الأولى
+        'about.p1': 'أنا <strong>غنى العظمة</strong>، درستُ هندسة البرمجيات ولي خبرة عملية في تصميم واجهات وتجربة المستخدم. أعمل على Figma فأصمّم واجهات متجاوبة ومسارات الاستخدام التي تقف خلفها.',
+        // الفقرة الثانية
+        'about.p2': 'أجمع في عملي بين التفكير التحليلي والاستكشاف الإبداعي: لكل بكسل غاية، ولكل تفاعل قصة. وأساسي الهندسي في البرمجة كائنية التوجّه وقواعد البيانات يجعل تصاميمي قابلة للتنفيذ فعلاً.',
+        // الدراسة
+        'f.edu': 'الدراسة', 'f.edu.v': 'بكالوريوس هندسة البرمجيات',
+        // الأدوات
+        'f.tools': 'الأدوات', 'f.tools.v': 'Figma — التصميم والمكوّنات والنماذج التفاعلية',
+        // التركيز
+        'f.focus': 'التركيز', 'f.focus.v': 'تصميم الواجهات · تجربة المستخدم · مسارات المستخدم · ويب وجوال متجاوب',
+        // اللغات
+        'f.lang': 'اللغات', 'f.lang.v': 'العربية · الإنكليزية — واجهات بالاتجاهين',
+        // عنوان قسم الأعمال
+        'work.k': 'مشاريع مختارة', 'work.t': 'أعمالي',
+        // فقرة الأعمال
+        'work.intro': 'أربعة منتجات بأربع لغات بصرية: كل لوحة ألوان مأخوذة من موضوع المنتج نفسه.',
+        // آفاق: الاسم والنوع
+        'p1.t': 'آفاق — شبكة العمل الحر السورية', 'p1.r': 'تطبيق ويب · واجهات توليدية',
+        // آفاق: الوصف
+        'p1.d': 'منصة عمل حر ذكية للسوق السورية، بواجهات تتولّد ديناميكياً، وتبديل فوري بين العربية والإنكليزية مع دعم كامل للكتابة من اليمين، ووضعين فاتح وداكن متجاوبين.',
+        // آفاق: وصف الصورة لقارئات الشاشة
+        'p1.alt': 'شاشة البحث في آفاق مع مربع الطلب الذكي والفلاتر والمشاريع المفتوحة',
+        // AquaAI: الاسم والنوع
+        'p2.t': 'AquaAI — التنبؤ الذكي باستهلاك المياه', 'p2.r': 'تطبيق ويب · تعلّم الآلة',
+        // AquaAI: الوصف
+        'p2.d': 'منصة تعتمد على تعلّم الآلة للتنبؤ باستهلاك المياه اليومي من البيانات السابقة وعوامل الطقس: الحرارة والرطوبة والأمطار. لوحة ألوانها (الغيم والماء) تجمع الأزرق المحيطي العميق بالرمادي الجوي لتعكس غاية النظام.',
+        // AquaAI: وصف الصورة
+        'p2.alt': 'لوحة AquaAI بالعربية مع معدلات الاستهلاك اليومي والأسبوعي والشهري',
+        // CoffeCam: الاسم والنوع
+        'p3.t': 'CoffeCam — تطبيق لطلب القهوة', 'p3.r': 'تطبيق جوال · 8 شاشات',
+        // CoffeCam: الوصف
+        'p3.d': 'تطبيق يسهّل شراء نوع القهوة المفضّل. ألوانه مستوحاة من القهوة ودرجاتها، لتجربة مريحة للعين من شاشة الترحيب حتى الدفع.',
+        // CoffeCam: وصف الصورة
+        'p3.alt': 'ثماني شاشات من CoffeCam من الترحيب حتى الدفع',
+        // GHFASH: الاسم والنوع
+        'p4.t': 'GHFASH — صفحة هبوط لعلامة أزياء راقية', 'p4.r': 'ويب وجوال · تجارة إلكترونية',
+        // GHFASH: الوصف
+        'p4.d': 'صفحة هبوط حديثة وبسيطة لعلامة أزياء راقية، تركّز على تجربة استخدام نظيفة ولوحة ألوان راقية من الدرجات الترابية المحايدة.',
+        // GHFASH: وصف الصورة
+        'p4.alt': 'صفحة GHFASH مع عنوان عريض بجانب عارضة',
+        // الوسوم (1)
+        't.genui': 'واجهات توليدية', 't.themes': 'داكن وفاتح', 't.dash': 'لوحة تحكم', 't.dataviz': 'عرض البيانات', 't.arfirst': 'العربية أولاً',
+        // الوسوم (2)
+        't.mobile': 'واجهة جوال', 't.ecom': 'الطلب والدفع', 't.proto': 'نموذج تفاعلي', 't.landing': 'صفحة هبوط', 't.brand': 'هوية العلامة', 't.resp': 'متجاوب',
+        // كلمة «الألوان» وروابط المشاريع
+        'palette': 'الألوان', 'open.live': 'شاهد الموقع المباشر', 'open.figma': 'شاهد نموذج Figma',
+        // عنوان قسم المهارات
+        'skills.k': 'ما أقدّمه', 'skills.t': 'مهاراتي',
+        // المهارة 1
+        's1.t': 'تصميم الواجهات', 's1.d': 'واجهات نظيفة ومتّسقة للويب والجوال، بألوان وخطوط ومسافات مختارة للمنتج ومستخدميه.',
+        // المهارة 2
+        's2.t': 'تجربة المستخدم ومساراته', 's2.d': 'رسم طريق المستخدم داخل المنتج، من أول شاشة حتى هدفه، قبل صقل أي بكسل.',
+        // المهارة 3
+        's3.t': 'النماذج التفاعلية على Figma', 's3.d': 'نماذج Figma قابلة للنقر، يجرّب بها العميل والمطوّر المنتج قبل بنائه.',
+        // المهارة 4
+        's4.t': 'التصميم المتجاوب', 's4.d': 'تخطيطات متماسكة من شاشة الجوال حتى الشاشة العريضة.',
+        // المهارة 5
+        's5.t': 'خلفية هندسية', 's5.d': 'البرمجة كائنية التوجّه وقواعد البيانات: تصاميم تحترم طريقة بناء البرمجيات فعلاً، وتسليم واضح للمطوّرين.',
+        // المهارة 6
+        's6.t': 'العربية أولاً و RTL', 's6.d': 'واجهات ثنائية اللغة تعمل من اليمين إلى اليسار بالسلاسة نفسها، كما في آفاق و AquaAI.',
+        // عنوان قسم «طريقتي»
+        'pr.k': 'من الفكرة إلى النموذج', 'pr.t': 'طريقتي',
+        // الخطوة 1
+        'pr1.t': 'الفهم', 'pr1.d': 'لمن هذا المنتج، وما المشكلة التي عليه حلّها.',
+        // الخطوة 2
+        'pr2.t': 'رسم المسارات', 'pr2.d': 'الطرق التي يسلكها المستخدم، شاشة بعد شاشة، حتى يتّضح الهيكل.',
+        // الخطوة 3
+        'pr3.t': 'تصميم الواجهة', 'pr3.d': 'الألوان والخطوط والمكوّنات، بلوحة ألوان مأخوذة من موضوع المنتج.',
+        // الخطوة 4
+        'pr4.t': 'النموذج والتسليم', 'pr4.d': 'نموذج Figma قابل للنقر، جاهز للاختبار والتنفيذ.',
+        // عنوان قسم التواصل
+        'c.k': 'لنعمل معاً', 'c.t': 'تواصل',
+        // فقرة التواصل
+        'c.lead': 'عندك منتج يحتاج تصميماً؟ يسعدني أن أسمع عنه.',
+        // زر النسخ ورسائله
+        'c.copy': 'انسخ البريد', 'copied': 'نُسخ البريد الإلكتروني', 'copyfail': 'لم يُنسخ. البريد: ginaalazmeh@gmail.com',
+        // حقوق النشر
+        'c.copyright': '© 2026 غنى العظمة. صُمّم بعناية.',
+        // زر اللغة وعنوان التبويب
+        'lang.btn': 'English', 'title': 'غنى العظمة — تصميم واجهات وتجربة المستخدم'
+      };
+      // نصوص إنكليزية غير موجودة في HTML (الرسائل وزر اللغة)
+      var EN = { copied: 'Email copied', copyfail: 'Copy failed. The email is ginaalazmeh@gmail.com', 'lang.btn': 'العربية', title: 'Ghina Alazmeh — UI/UX Designer' };
+      // دالة تحفظ النص الإنكليزي الأصلي من الصفحة
+      function remember(attr, key) {
+        // لكل عنصر يحمل المفتاح
+        document.querySelectorAll('[' + key + ']').forEach(function (el) {
+          // اسم المفتاح
+          var k = el.getAttribute(key);
+          // نحفظ النص أو الـ HTML أو الخاصية حسب النوع
+          if (!(k in EN)) EN[k] = attr === 'html' ? el.innerHTML : attr === 'text' ? el.textContent : el.getAttribute(attr);
+        });
+      }
+      // حفظ الأنواع الأربعة
+      remember('text', 'data-i18n'); remember('html', 'data-i18n-html'); remember('alt', 'data-i18n-alt'); remember('aria-label', 'data-i18n-aria');
+
+      // اللغة الحالية
+      var lang = doc.lang === 'ar' ? 'ar' : 'en';
+      // دالة تعيد النص باللغة الحالية
+      function t(k) { var d = lang === 'ar' ? AR : EN; return k in d ? d[k] : EN[k]; }
+      // دالة تملأ الشريط المتحرك
+      function fillMarquee() {
+        // كلمات اللغة الحالية
+        var words = MARQUEE[lang], html = '';
+        // نكررها مرتين ليبدو الشريط بلا نهاية
+        for (var r = 0; r < 2; r++) words.forEach(function (w) { html += '<span' + (r ? ' aria-hidden="true"' : '') + '>' + w + '</span>'; });
+        // وضعها في الصفحة
+        document.getElementById('marquee').innerHTML = html;
+      }
+      // دالة تطبّق اللغة على الصفحة كلها
+      function applyLang() {
+        // لغة الصفحة واتجاهها
+        doc.lang = lang; doc.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        // النصوص العادية
+        document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
+        // النصوص التي فيها HTML
+        document.querySelectorAll('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+        // أوصاف الصور
+        document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t(el.getAttribute('data-i18n-alt')); });
+        // أسماء العناصر لقارئات الشاشة
+        document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))); });
+        // زر اللغة
+        var lb = document.getElementById('lang');
+        // نصه ولغته
+        lb.textContent = t('lang.btn'); lb.lang = lang === 'ar' ? 'en' : 'ar';
+        // عنوان التبويب
+        document.title = t('title');
+        // إعادة ملء الشريط المتحرك
+        fillMarquee();
+      }
+      // عند الضغط على زر اللغة
+      document.getElementById('lang').addEventListener('click', function () {
+        // قلب اللغة
+        lang = lang === 'ar' ? 'en' : 'ar';
+        // حفظها للزيارة القادمة
+        try { localStorage.setItem('ghina-lang', lang); } catch (e) { }
+        // تطبيقها
+        applyLang();
+      });
+      // عند الفتح: نطبّق العربية إن لزم، وإلا نملأ الشريط فقط
+      if (lang === 'ar') applyLang(); else fillMarquee();
+
+      // ---------- القائمة وشريط التقدّم والرابط النشط ----------
+      // الشريط العلوي وشريط التقدّم
+      var nav = document.querySelector('.nav'), bar = document.querySelector('.progress');
+      // دالة تعمل مع كل تمرير
+      function onScroll() {
+        // مقدار التمرير وأقصى تمرير ممكن
+        var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+        // تغيير شكل الشريط بعد 40 بكسل
+        nav.classList.toggle('scrolled', y > 40);
+        // طول شريط التقدّم
+        bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      }
+      // ربطها بالتمرير وتشغيلها مرة عند الفتح
+      addEventListener('scroll', onScroll, { passive: true }); onScroll();
+      // روابط القائمة
+      var links = [].slice.call(document.querySelectorAll('.links a'));
+      // مراقب يعرف أي قسم ظاهر الآن
+      var secIO = new IntersectionObserver(function (es) {
+        // لكل قسم
+        es.forEach(function (e) {
+          // إذا لم يكن ظاهراً نتجاهله
+          if (!e.isIntersecting) return;
+          // نُبرز رابطه في القائمة
+          links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+        });
+        // القسم يُعدّ ظاهراً عندما يمر بمنتصف الشاشة
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      // الأقسام المراقبة
+      ['about', 'work', 'skills', 'contact'].forEach(function (id) { secIO.observe(document.getElementById(id)); });
+
+      // ---------- ظهور العناصر عند التمرير ----------
+      // مراقب الظهور
+      var rIO = new IntersectionObserver(function (es) {
+        // عند الظهور نضيف in ونتوقف عن المراقبة
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rIO.unobserve(e.target); } });
+        // يظهر العنصر عند رؤية 12% منه
+      }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+      // مراقبة كل عنصر reveal
+      document.querySelectorAll('.reveal').forEach(function (el) { rIO.observe(el); });
+
+      // ---------- عدّاد الأرقام ----------
+      // مراقب للأرقام
+      var cIO = new IntersectionObserver(function (es) {
+        // لكل رقم
+        es.forEach(function (e) {
+          // إذا لم يظهر بعد ننتظر
+          if (!e.isIntersecting) return;
+          // مرة واحدة فقط
+          cIO.unobserve(e.target);
+          // الرقم المستهدف واللاحقة +
+          var el = e.target, n = +el.dataset.count, s = el.dataset.suffix || '';
+          // بلا عدّ لمن طلب تقليل الحركة
+          if (reduce) return;
+          // وقت البداية
+          var t0 = performance.now();
+          // دالة تعمل في كل إطار
+          (function f(now) {
+            // نسبة التقدّم مع تباطؤ في النهاية
+            var k = Math.min(1, (now - t0) / 1300), v = Math.round(n * (1 - Math.pow(1 - k, 3)));
+            // كتابة الرقم (+ قبله في العربية)
+            el.textContent = (lang === 'ar' ? s + v : v + s);
+            // الاستمرار حتى النهاية
+            if (k < 1) requestAnimationFrame(f);
+            // تشغيل الدالة
+          })(t0);
+        });
+        // يبدأ العد عندما يظهر 60% من الرقم
+      }, { threshold: .6 });
+      // مراقبة كل رقم
+      document.querySelectorAll('[data-count]').forEach(function (el) { cIO.observe(el); });
+
+      // ---------- لمسات الماوس (للكمبيوتر فقط) ----------
+      // فقط مع ماوس، وبدون طلب تقليل الحركة
+      if (fine && !reduce) {
+        // التوهج ومكانه الحالي والمستهدف
+        var glow = document.querySelector('.glow'), gx = innerWidth / 2, gy = innerHeight / 2, cx = gx, cy = gy;
+        // حفظ مكان الماوس
+        addEventListener('pointermove', function (e) { gx = e.clientX; gy = e.clientY; }, { passive: true });
+        // حلقة تقرّب التوهج من الماوس بنعومة
+        (function loop() { cx += (gx - cx) * .12; cy += (gy - cy) * .12; glow.style.transform = 'translate(' + cx + 'px,' + cy + 'px)'; requestAnimationFrame(loop); })();
+
+        // بطاقات المهارات
+        document.querySelectorAll('.card').forEach(function (c) {
+          // ضوء البطاقة يتبع الماوس
+          c.addEventListener('pointermove', function (e) { var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
+        });
+        // نوافذ المشاريع تميل نحو الماوس
+        // لكل صورة مشروع
+        document.querySelectorAll('.shot').forEach(function (s) {
+          // النافذة
+          var w = s.querySelector('.window');
+          // عند حركة الماوس فوقها
+          s.addEventListener('pointermove', function (e) {
+            // مكان الماوس كنسبة من 0 إلى 1
+            var r = s.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+            // ميلان أفقي
+            w.style.setProperty('--ry', ((x - .5) * 9).toFixed(2) + 'deg');
+            // ميلان عمودي
+            w.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
+            // مكان اللمعة
+            w.style.setProperty('--sx', (x * 100) + '%'); w.style.setProperty('--sy', (y * 100) + '%');
+          });
+          // عند الخروج تعود مستقيمة
+          s.addEventListener('pointerleave', function () { w.style.setProperty('--ry', '0deg'); w.style.setProperty('--rx', '0deg'); });
+        });
+        // الأزرار تنجذب نحو الماوس
+        // لكل زر
+        document.querySelectorAll('.magnet').forEach(function (b) {
+          // تحريكه قليلاً نحو الماوس
+          b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .18) + 'px,' + ((e.clientY - r.top - r.height / 2) * .28 - 2) + 'px)'; });
+          // إعادته عند الخروج
+          b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+        });
+      }
+
+      // ---------- مؤشر غنى يزور البطاقات والإطار ----------
+      // المؤشر وحاوية الصورة
+      var mate = document.getElementById('mate'), visual = document.querySelector('.visual');
+      // محطات المؤشر بالترتيب
+      var stops = ['chipA', 'layer', 'chipB', 'chipC'].map(function (id) { return document.getElementById(id); });
+      // الموقع الحالي والهدف ورقم المحطة
+      var mx = 0, my = 0, tx = 0, ty = 0, si = 0;
+      // دالة تحسب نقطة الوصول على العنصر
+      function target(el) {
+        // أبعاد الحاوية والعنصر
+        var v = visual.getBoundingClientRect(), r = el.getBoundingClientRect();
+        // نقطة داخل العنصر
+        var fx = el.id === 'layer' ? .62 : .78, fy = el.id === 'layer' ? .38 : .72;
+        // عكسها في العربية
+        if (doc.dir === 'rtl') fx = 1 - fx;
+        // الإحداثيات النهائية
+        return [r.left - v.left + r.width * fx, r.top - v.top + r.height * fy];
+      }
+      // الانتقال إلى المحطة التالية
+      function next() {
+        // تخطّي البطاقات المخفية (على الجوال بطاقة مسارات المستخدم مخفية)
+        for (var n = 0; n < stops.length && !stops[si].getBoundingClientRect().width; n++) si = (si + 1) % stops.length;
+        // حساب نقطة المحطة وجعلها الهدف
+        var p = target(stops[si]); tx = p[0]; ty = p[1];
+        // الانتقال إلى رقم المحطة التالية
+        si = (si + 1) % stops.length;
+      }
+      // البداية: المؤشر عند أول محطة ويتجه للثانية
+      next(); mx = tx; my = ty; next();
+      // إذا كانت الحركة مسموحة
+      if (!reduce) {
+        // محطة جديدة كل 2.6 ثانية
+        setInterval(next, 2600);
+        // حلقة تحرّك المؤشر بنعومة
+        (function move() { mx += (tx - mx) * .045; my += (ty - my) * .045; mate.style.transform = 'translate(' + mx.toFixed(1) + 'px,' + my.toFixed(1) + 'px)'; requestAnimationFrame(move); })();
+        // بدون حركة: المؤشر ثابت
+      } else { mate.style.transform = 'translate(' + tx + 'px,' + ty + 'px)'; }
+      // شارة المقاس تعرض حجم الصورة الحقيقي
+      // الشارة وطبقة الصورة
+      var fsize = document.getElementById('fsize'), layer = document.getElementById('layer');
+      // دالة تكتب المقاس
+      function size() { var r = layer.getBoundingClientRect(); fsize.textContent = Math.round(r.width) + ' × ' + Math.round(r.height); }
+      // عند الفتح وعند تغيير حجم النافذة
+      size(); addEventListener('resize', size);
+
+      // ---------- نسخ البريد ----------
+      // الرسالة الصغيرة ومؤقتها
+      var toast = document.querySelector('.toast'), tt = 0;
+      // دالة تعرض رسالة ثم تخفيها بعد ثانيتين
+      function say(m) { toast.textContent = m; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { toast.classList.remove('on'); }, 2200); }
+      // عند الضغط على «انسخ البريد»
+      document.getElementById('copy').addEventListener('click', function () {
+        // البريد
+        var mail = 'ginaalazmeh@gmail.com';
+        // النسخ ثم رسالة نجاح أو فشل
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(mail).then(function () { say(t('copied')); }, function () { say(t('copyfail')); });
+        // متصفح قديم: رسالة فيها البريد
+        else say(t('copyfail'));
+      });
+      // نهاية الدالة الرئيسية وتشغيلها
+    })();
+    // نهاية السكربت
+  </script>
+  <!-- نهاية محتوى الصفحة -->
+</body>
+<!-- نهاية الصفحة -->
+
+</html>
